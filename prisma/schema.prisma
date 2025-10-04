@@ -11,7 +11,8 @@ datasource db {
 
 model User {
   id  String @default(uuid()) @unique
-  name String
+  name String?
+  password  String?
   email String
   projects Project[]
   created_at  DateTime @default(now())

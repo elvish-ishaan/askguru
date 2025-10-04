@@ -9,6 +9,7 @@ import {
   SheetContent,
   SheetTrigger,
 } from "@/components/ui/sheet"
+import { signOut } from "next-auth/react"
 
 export default function Sidebar() {
   const [open, setOpen] = useState(false)
@@ -36,13 +37,14 @@ export default function Sidebar() {
         ))}
       </nav>
 
-      {/* Sign Out */}
-      <div className="mb-6 px-4">
+      {/* Sign Out Button */}
+      <div className="p-3 border-t">
         <Button
-          variant="ghost"
-          className="w-full flex items-center justify-start gap-3 text-[var(--destructive)] hover:bg-[var(--muted)]"
+          onClick={() => signOut({callbackUrl: "/"})}
+          variant="outline"
+          className="w-full flex items-center gap-2 justify-center"
         >
-          <LogOut className="h-5 w-5" />
+          <LogOut className="h-4 w-4" />
           Sign Out
         </Button>
       </div>

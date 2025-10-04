@@ -52,18 +52,18 @@ export async function POST(req: NextRequest){
         }
         console.log(project,'sucessfully got project db')
         // Define the filter
-        // const filter = {
-        //   must: [
-        //     {
-        //       key: "metadata.projectId", // Filter by a metadata field named 'source'
-        //       match: {
-        //         value: project.id, 
-        //       },
-        //     },
-        //   ],
-        // };
+        const filter = {
+          must: [
+            {
+              key: "metadata.projectId", // Filter by a metadata field named 'source'
+              match: {
+                value: project.id, 
+              },
+            },
+          ],
+        };
         //use similarity search to fetch similiar data(context)
-        const context = await vectorStore.similaritySearch(query, 2)
+        const context = await vectorStore.similaritySearch(query, 2, filter)
         console.log(context,'geting context..........')
         //provide most similar data with conversation(if present) to llm
         const generatedLlmRes = await model.invoke(systemPrompt(JSON.stringify(context), query))

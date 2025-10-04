@@ -10,10 +10,12 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet"
 import {} from 'next-auth'
-import { signIn } from "next-auth/react"
+import { signIn, useSession } from "next-auth/react"
 
 export default function Navbar() {
   const [open, setOpen] = useState(false)
+  const {data: session} = useSession()
+  console.log(session,'gettin gsession')
 
   const navLinks = [
     { href: "/", label: "Home" },
@@ -46,8 +48,12 @@ export default function Navbar() {
 
         {/* Actions */}
         <div className="hidden items-center gap-3 md:flex">
-          <Button variant="ghost" onClick={() => signIn()}>Login</Button>
-          <Button className="bg-[var(--primary)] text-[var(--primary-foreground)] hover:opacity-90">
+          <Button variant="ghost" onClick={() => signIn("google", {
+            callbackUrl: "/projects"
+          })}>Login</Button>
+          <Button onClick={() => signIn("google", {
+            callbackUrl: "/projects"
+          })} className="bg-[var(--primary)] text-[var(--primary-foreground)] hover:opacity-90">
             Sign Up
           </Button>
         </div>
@@ -73,10 +79,16 @@ export default function Navbar() {
                   </Link>
                 ))}
                 <div className="mt-6 flex flex-col gap-3">
-                  <Button variant="ghost" className="w-full">
+                  <Button variant="ghost" onClick={() => signIn("google", {
+            callbackUrl: "/projects"
+          })} className="w-full">
                     Login
                   </Button>
-                  <Button className="w-full bg-[var(--primary)] text-[var(--primary-foreground)] hover:opacity-90">
+                  <Button className="w-full bg-[var(--primary)] text-[var(--primary-foreground)] hover:opacity-90"
+                  onClick={() => signIn("google", {
+            callbackUrl: "/projects"
+          })}
+                  >
                     Sign Up
                   </Button>
                 </div>

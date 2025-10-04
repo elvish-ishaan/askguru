@@ -1,7 +1,7 @@
 
 import { AuthOptions } from "next-auth"
 import GoogleProvider from "next-auth/providers/google"
-
+import CredentialsProvider from "next-auth/providers/credentials";
 
 export const authOptions: AuthOptions = {
   providers: [
@@ -9,46 +9,56 @@ export const authOptions: AuthOptions = {
       clientId: process.env.GOOGLE_CLIENT_ID!,
       clientSecret: process.env.GOOGLE_CLIENT_SEC!,
     }),
+    CredentialsProvider({
+      name: "Credentials",
+      credentials: {
+      email: { label: "Email", type: "text", placeholder: "jsmith@email.com" },
+      password: { label: "Password", type: "password" }
+    },
+    async authorize(credentials) {
+      console.log(credentials,'getting credentails.........')
+      const baseUrl = process.env.NEXTAUTH_URL || "http://localhost:3000"
+      const res = await fetch(`${baseUrl}/api/user`, {
+        method: 'POST',
+        body: JSON.stringify({
+          email: credentials?.email,
+          password: credentials?.password,
+        })
+      });
+      const userData = await res.json();
+      console.log(userData,'getting user data..........')
+      if(userData.success){
+        return userData.user
+      }
+      return null
+    }
+    })
+    
   ],
   secret: process.env.NEXTAUTH_SECRET,
   session: {
-    strategy: "jwt", // important for Express verification
+    strategy: "jwt",
   },
   callbacks: {
-    async jwt({ token, account, profile }) {
-      // if (account && profile) {
-      //   //generate the jwt token and add it token
-      //   const payload = {
-      //       userId : token.sub,
-      //       userEmail : token.email
-      //   }
-      //   const SignedToken = jwt.sign(payload, process.env.NEXTAUTH_SECRET!, {
-      //       expiresIn: "24h",
-      //   })
-      //   token.email = profile.email
-      //   token.accessToken = SignedToken
-      // }
+    async jwt({ token }) {
       return token
     },
     async session({ session, token }) {
-      // if (token) {
-      //   session.user.id = token.sub as string
-      //   session.user.email = token.email as string
-      //   session.user.token = token.accessToken as unknown as string
-      // }
-      // //fetch user details and add to session
-      // const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/user`, {
-      //   method: 'GET',
-      //   headers: {
-      //     'Authorization': `Bearer ${token.accessToken}`
-      //   }
-      // });
-      // const userData = await res.json();
-      // if (userData.success) {
-      //   session.user.planType = userData.user.planType;
-      //   session.user.imagesUploaded = userData.user.imagesUploaded;
-      //   session.user.noOfPrompts = userData.user.noOfPrompts;
-      // }
+
+      //fetch user details and add to session
+      const baseUrl = process.env.NEXTAUTH_URL || "http://localhost:3000"
+      const res = await fetch(`${baseUrl}/api/user`, {
+        method: 'POST',
+        body: JSON.stringify({
+          userId: token.sub,
+          name: token.name,
+          email: token.email,
+        })
+      });
+      const userData = await res.json();
+      if (userData.success) {
+        session.user = userData?.user
+      }
       return session
     },
   },

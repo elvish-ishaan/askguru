@@ -1,21 +1,31 @@
+import { authOptions } from "@/lib/authOptions";
 import { vectorStore } from "@/lib/core/vectorStore";
 import prisma from "@/prisma/dbClient";
 import { RecursiveUrlLoader } from "@langchain/community/document_loaders/web/recursive_url";
 import { RecursiveCharacterTextSplitter } from "@langchain/textsplitters";
 import { compile } from "html-to-text";
+import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
+    const session = await getServerSession(authOptions);
+    if(!session){
+        return NextResponse.json({
+            success: false,
+            message: 'user unauthenticated'
+        })
+    }
     try {
         const { title, sourceUrl, excludePaths, allowedOrigin } = await req.json()
+        console.log(excludePaths,'getting exclude paths')
         try {
             const project = await prisma.project.create({
                 data: {
                     title,
                     sourceUrl,
-                    excludePaths,
+                    excludePaths: [excludePaths],
                     allowedOrigin,
-                    userId: "f62b9b3b-f0f6-4214-983b-d3c9796122e5"
+                    userId: session.user?.id
                 }
             })
             console.log(project,'project created successfully')
@@ -25,7 +35,7 @@ export async function POST(req: NextRequest) {
             const loader = new RecursiveUrlLoader(sourceUrl, {
               extractor: compiledConvert,
               maxDepth: 1,
-              excludeDirs: excludePaths,
+              excludeDirs: [excludePaths],
             });
     
             const docs = await loader.load();
