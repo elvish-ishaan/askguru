@@ -50,6 +50,19 @@ export async function POST(req: NextRequest){
                 message: 'no project found'
             })
         }
+
+        //check if req is comming from allowedOrigin of project
+        const host = req.headers.get('host');
+        const url = new URL(project.allowedOrigin);
+        const  allowedHost = url.hostname
+        // const allowedHostWithPort = url.host
+        if(host !== allowedHost){
+            return NextResponse.json({
+                success: false,
+                message: 'host does not match with allowed origin'
+            })
+        }
+
         console.log(project,'sucessfully got project db')
         // Define the filter
         const filter = {
