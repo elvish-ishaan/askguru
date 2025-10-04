@@ -1,11 +1,12 @@
 "use client"
 
 import { Button } from "@/components/ui/button"
-import CopyCommand from "./copy"
+import  {CopyCommand} from "./copy"
+import { Safari } from "../ui/safari"
 
 export default function HeroSection() {
   return (
-    <section className="relative min-h-[92vh] w-full bg-[#020617] flex pt-32 justify-center text-center px-6">
+    <section className="relative min-h-[92vh] w-full bg-[#020617] flex pt-20 pb-5 justify-center text-center px-6">
       {/* Dark Sphere Grid Background */}
       <div
         className="absolute inset-0 z-0"
@@ -19,18 +20,19 @@ export default function HeroSection() {
           backgroundSize: "32px 32px, 32px 32px, 100% 100%",
         }}
       />
-
-      {/* Content */}
-      <div className="relative z-10 w-full mx-auto flex flex-col items-center ">
+      <div className=" flex flex-col">
+        {/* Content */}
+        <div className="relative z-10 w-full mx-auto flex flex-col items-center ">
         <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white font-noticia w-full">
           Make Your Website <span className="text-[var(--primary)] inline-block">Conversational</span>
         </h1>
         <p className=" mt-10 text-lg sm:text-xl text-slate-300 font-firaSans max-w-3xl">
           Transform how users interact with your brand through intelligent, engaging, and human-like conversations directly on your site.
         </p>
+        <CopyCommand/>
 
         {/* CTA Buttons */}
-        <div className="mt-10 flex flex-col sm:flex-row gap-4">
+        <div className="my-6 flex flex-col sm:flex-row gap-4">
           <Button className="bg-[var(--primary)] text-[var(--primary-foreground)] px-6 py-3 text-lg hover:opacity-90">
             Get Started
           </Button>
@@ -38,7 +40,14 @@ export default function HeroSection() {
             Learn More
           </Button>
         </div>
-        <CopyCommand/>
+        </div>
+                {/* mock screeen */}
+        <div className="w-[1203px]">
+      <Safari
+        url="www.example.com"
+        imageSrc="https://placehold.co/1200x750?text=Hello+World"
+      />
+        </div>
       </div>
     </section>
   )

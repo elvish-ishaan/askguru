@@ -24,7 +24,8 @@ export default function Sidebar() {
   const SidebarContent = () => (
     <div className="flex h-full flex-col justify-between">
       {/* Top Section */}
-      <nav className="mt-6 flex flex-col gap-2">
+      <nav className="mt-10 flex flex-col gap-2">
+              <div className=" text-3xl text-primary font-bold ml-5">AskGuru</div>
         {navLinks.map(({ href, label, icon: Icon }) => (
           <Link
             key={href}

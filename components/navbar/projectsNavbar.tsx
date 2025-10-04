@@ -4,6 +4,8 @@ import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
 import { Skeleton } from "@/components/ui/skeleton"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { Button } from "../ui/button"
+import { Plus } from "lucide-react"
 
 type Project = {
   id: string
@@ -49,8 +51,8 @@ export default function ProjectsNavbar() {
   if (loading) {
     return (
       <div className="w-full px-4 py-2 border-b flex items-center gap-2">
-        <Skeleton className="h-6 w-24 rounded" />
-        <Skeleton className="h-6 w-48 rounded" />
+        <Skeleton className="h-8 w-24 rounded" />
+        <Skeleton className="h-10 w-48 rounded" />
       </div>
     )
   }
@@ -72,10 +74,13 @@ export default function ProjectsNavbar() {
         </SelectTrigger>
         <SelectContent>
           {projects.map((project) => (
+            <>
             <SelectItem key={project.id} value={project.id}>
               {project.title}
             </SelectItem>
+            </>
           ))}
+          <Button className=" w-full text-start mt-2" variant={"outline"}>New</Button>
         </SelectContent>
       </Select>
     </div>

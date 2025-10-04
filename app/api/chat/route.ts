@@ -2,6 +2,7 @@ import { model } from "@/lib/core/llm";
 import { vectorStore } from "@/lib/core/vectorStore";
 import { systemPrompt } from "@/lib/systemPrompt";
 import prisma from "@/prisma/dbClient";
+import { NextApiRequest } from "next";
 import { NextRequest, NextResponse } from "next/server";
 
 
@@ -52,16 +53,17 @@ export async function POST(req: NextRequest){
         }
 
         //check if req is comming from allowedOrigin of project
-        const host = req.headers.get('host');
+        const host = req.headers.get('hostname');
         const url = new URL(project.allowedOrigin);
         const  allowedHost = url.hostname
+        console.log("host:", host, "allowedHost:",allowedHost)
         // const allowedHostWithPort = url.host
-        if(host !== allowedHost){
-            return NextResponse.json({
-                success: false,
-                message: 'host does not match with allowed origin'
-            })
-        }
+        // if(host !== allowedHost){
+        //     return NextResponse.json({
+        //         success: false,
+        //         message: 'host does not match with allowed origin'
+        //     })
+        // }
 
         console.log(project,'sucessfully got project db')
         // Define the filter
