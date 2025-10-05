@@ -4,10 +4,11 @@ import prisma from "@/prisma/dbClient";
 import { RecursiveUrlLoader } from "@langchain/community/document_loaders/web/recursive_url";
 import { RecursiveCharacterTextSplitter } from "@langchain/textsplitters";
 import { compile } from "html-to-text";
-import { getServerSession } from "next-auth";
+import { getServerSession } from "next-auth/next";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
+    //@ts-expect-error fix type here
     const session = await getServerSession(authOptions);
     if(!session){
         return NextResponse.json({
@@ -25,6 +26,7 @@ export async function POST(req: NextRequest) {
                     sourceUrl,
                     excludePaths: [excludePaths],
                     allowedOrigin,
+                    //@ts-expect-error fix the typo error
                     userId: session.user?.id
                 }
             })

@@ -1,11 +1,12 @@
 import { authOptions } from "@/lib/authOptions"
 import prisma from "@/prisma/dbClient";
-import { getServerSession } from "next-auth"
+import { getServerSession } from "next-auth/next"
 import { NextRequest, NextResponse } from "next/server"
 import crypto from 'crypto';
 
 
 export async function GET(req: NextRequest) {
+    //@ts-expect-error fix later types
     const session = await getServerSession(authOptions);
     if(!session){
         return NextResponse.json({

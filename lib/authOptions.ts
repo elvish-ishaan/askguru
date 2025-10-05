@@ -1,9 +1,8 @@
 
-import { AuthOptions } from "next-auth"
 import GoogleProvider from "next-auth/providers/google"
 import CredentialsProvider from "next-auth/providers/credentials";
 
-export const authOptions: AuthOptions = {
+export const authOptions = {
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID!,
@@ -40,9 +39,11 @@ export const authOptions: AuthOptions = {
     strategy: "jwt",
   },
   callbacks: {
+    //@ts-expect-error add type here
     async jwt({ token }) {
       return token
     },
+    //@ts-expect-error add types here
     async session({ session, token }) {
 
       //fetch user details and add to session

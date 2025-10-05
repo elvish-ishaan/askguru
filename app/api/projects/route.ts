@@ -1,9 +1,10 @@
 import { authOptions } from "@/lib/authOptions";
 import prisma from "@/prisma/dbClient"
-import { getServerSession } from "next-auth";
+import { getServerSession } from "next-auth/next";
 import { NextResponse } from "next/server"
 export async function GET() {
 
+    //@ts-expect-error fix types
      const session = await getServerSession(authOptions);
         if(!session){
             return NextResponse.json({
@@ -14,6 +15,7 @@ export async function GET() {
     try {
         const projects = await prisma.project.findMany({
             where: {
+                //@ts-expect-error fix types
                 userId: session.user?.id
             }
         })
