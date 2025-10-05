@@ -106,10 +106,10 @@ export default function ApiKeysPage() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {keys.map((apikey) => (
+              {keys?.map((apikey) => (
                 <TableRow key={apikey?.id}>
                   <TableCell className="font-mono text-xs">
-                    {apikey.id?.slice(0, 8)}...
+                    {apikey?.id?.slice(0, 8)}...
                   </TableCell>
                   <TableCell className="font-mono text-sm">
                     {maskSecret(apikey?.secret)}

@@ -1,12 +1,13 @@
+import { NextApiRequest } from "next"
 import { NextResponse } from "next/server"
-import type { NextRequest } from "next/server"
 
-export function middleware(req: NextRequest) {
+export function middleware(req: NextApiRequest) {
   const res = NextResponse.next()
 
   res.headers.set("Access-Control-Allow-Origin", "*")
-  res.headers.set("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
+  res.headers.set("Access-Control-Allow-Methods", "GET, POST,DELETE, OPTIONS")
   res.headers.set("Access-Control-Allow-Headers", "Content-Type, Authorization")
+
 
   if (req.method === "OPTIONS") {
     return new NextResponse(null, { headers: res.headers })

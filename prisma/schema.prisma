@@ -29,6 +29,7 @@ model Project {
   userId   String
   user     User @relation(fields: [userId], references: [id])
   threads  Thread[]
+  usage    Usage?   @relation("ProjectToUsage")
   created_at  DateTime @default(now())
   updated_at  DateTime @default(now())
 }
@@ -46,6 +47,8 @@ model Thread {
   projectId String
   project Project @relation(fields: [projectId], references: [id])
   conversations Conversation[]
+  usageId   String
+  usage     Usage @relation(fields: [usageId], references: [id])
   created_at  DateTime @default(now())
   updated_at  DateTime @default(now())
 }
@@ -58,4 +61,16 @@ model Conversation {
   llmResponce String
   created_at  DateTime @default(now())
   updated_at  DateTime @default(now())
+}
+
+model  Usage {
+  id  String @default(uuid()) @unique
+  projectId String @unique
+  project  Project  @relation("ProjectToUsage", fields: [projectId], references: [id])
+  totalApiCalls Int @default(0)
+  errorCalls    Int @default(0)
+  totalTokensUsed Int @default(0)
+  totalMessages  Int @default(0)
+  totalThreads   Int @default(0)
+  threads        Thread[]
 }

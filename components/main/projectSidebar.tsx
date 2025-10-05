@@ -31,7 +31,7 @@ export default function ProjectSidebar() {
       <nav className="flex-1 px-3 py-6 space-y-2">
         {links.map((link) => {
           const Icon = link.icon
-          const isActive = pathname === link.href
+          const isActive = `/${pathname.split("/")[3]}` === link.href
           return (
             <Link
               key={link.name}

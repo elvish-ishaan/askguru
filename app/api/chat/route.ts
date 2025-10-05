@@ -7,7 +7,17 @@ import { NextRequest, NextResponse } from "next/server";
 
 
 export async function POST(req: NextRequest){
-    
+    // const headers = {
+    //     'Access-Control-Allow-Origin': 'https://your-frontend-domain.com',
+    //     'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+    //     'Access-Control-Allow-Headers': 'Content-Type',
+    //   };
+
+    //   // Handle preflight requests (OPTIONS)
+    //   if (req.method === 'OPTIONS') {
+    //     return new Response(null, { status: 204, headers });
+    //   }
+
     try {
         const authorization = req.headers.get("authorization")
         const apiKey = authorization?.split(" ")[1]

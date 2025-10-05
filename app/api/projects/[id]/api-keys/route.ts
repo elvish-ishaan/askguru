@@ -21,6 +21,7 @@ export async function GET(req: NextRequest) {
               projectId: projectId
             }
         });
+        console.log(apikeys,'getting api key................')
         if(!apikeys){
             return NextResponse.json({
                 success: false,

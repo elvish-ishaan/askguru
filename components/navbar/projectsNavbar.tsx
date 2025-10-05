@@ -74,13 +74,13 @@ export default function ProjectsNavbar() {
         </SelectTrigger>
         <SelectContent>
           {projects.map((project) => (
-            <>
+            <div key={project.id}>
             <SelectItem key={project.id} value={project.id}>
               {project.title}
             </SelectItem>
-            </>
+            </div>
           ))}
-          <Button className=" w-full text-start mt-2" variant={"outline"}>New</Button>
+          <Button onClick={() => router.push("/projects/new")} className=" w-full text-start mt-2" variant={"outline"}>New</Button>
         </SelectContent>
       </Select>
     </div>
