@@ -1,52 +1,53 @@
 "use client"
 
-import {
-  Cloud,
-  Database,
-  Code2,
-  Cpu,
-  Globe,
-  Rocket,
-  Shield,
-} from "lucide-react"
-import { Marquee } from "../ui/marquee"
+import { motion } from "framer-motion"
+import { Cloud, Globe, Layers, Rocket, Star, Sun, Zap, Box } from "lucide-react"
 
 const partners = [
-  { name: "CloudPulse", icon: Cloud },
-  { name: "DataFlux", icon: Database },
-  { name: "DevMetrics", icon: Code2 },
-  { name: "InnovaAI", icon: Cpu },
-  { name: "GlobalNet", icon: Globe },
-  { name: "Launchify", icon: Rocket },
-  { name: "SecureSys", icon: Shield },
+  { name: "Nova", icon: Rocket },
+  { name: "Orbit", icon: Globe },
+  { name: "Nimbus", icon: Cloud },
+  { name: "Vertex", icon: Layers },
+  { name: "Prism", icon: Box },
+  { name: "Atlas", icon: Globe },
+  { name: "Stellar", icon: Star },
+  { name: "Lumen", icon: Sun },
 ]
 
-export default function PartnersMarquee() {
+export default function PartnersScroller() {
   return (
-    <section className="w-full py-12 bg-slate-900/10 text-foreground overflow-hidden">
-      <h3 className="text-center text-2xl font-semibold mb-8">
-        Trusted by forward-thinking companies
-      </h3>
+    <div className=" py-4">
+      <h1 className=" text-4xl font-bold text-center">Companies who trust</h1>
+      <div className="relative w-full bg-[var(--background)] py-16 overflow-hidden">
+      {/* Gradient fade left */}
+      <div className="pointer-events-none absolute left-0 top-0 h-full w-20 bg-gradient-to-r from-[var(--background)] to-transparent z-10" />
+      {/* Gradient fade right */}
+      <div className="pointer-events-none absolute right-0 top-0 h-full w-20 bg-gradient-to-l from-[var(--background)] to-transparent z-10" />
 
-      <Marquee
-        className="w-full flex items-center gap-16 px-4"
-        pauseOnHover
+      {/* Scrolling container */}
+      <motion.div
+        className="flex gap-32 whitespace-nowrap"
+        animate={{ x: ["0%", "-50%"] }}
+        transition={{
+          repeat: Infinity,
+          duration: 20,
+          ease: "linear",
+        }}
       >
-        {partners.map((p) => {
-          const Icon = p.icon
+        {[...partners, ...partners].map((partner, idx) => {
+          const Icon = partner.icon
           return (
             <div
-              key={p.name}
-              className="flex flex-col items-center justify-center space-y-2 min-w-[140px]"
+              key={idx}
+              className="flex flex-col items-center justify-center gap-2 text-[var(--muted-foreground)]"
             >
-              <div className="flex items-center justify-center h-16 w-16 rounded-xl bg-[var(--muted)] shadow-md">
-                <Icon className="h-8 w-8 text-[var(--foreground)]" />
-              </div>
-              <span className="text-sm font-medium">{p.name}</span>
+              <Icon className="h-10 w-10 text-[var(--foreground)]" />
+              <span className="text-sm font-medium">{partner.name}</span>
             </div>
           )
         })}
-      </Marquee>
-    </section>
+      </motion.div>
+    </div>
+    </div>
   )
 }

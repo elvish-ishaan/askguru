@@ -23,9 +23,9 @@ export function CopyCommand() {
     <RainbowButton
       onClick={handleCopy}
       variant="outline"
-      className=" ml-3 mt-8 h-12 px-3 flex items-center gap-2 text-[var(--foreground)] hover:bg-[var(--muted)]"
+      className=" ml-3 mt-8 h-12 w-52 px-3 flex items-center gap-2 text-[var(--foreground)] hover:bg-[var(--muted)]"
     >
-      <code className="text-sm font-mono text-[var(--foreground)]">
+      <code className="text-lg font-mono text-[var(--foreground)]">
         {command}
       </code>
       {copied ? (

@@ -9,9 +9,8 @@ import {
   SheetContent,
   SheetTrigger,
 } from "@/components/ui/sheet"
-import {} from 'next-auth'
-import { signIn } from "next-auth/react"
 import { useRouter } from "next/navigation"
+import Image from "next/image"
 
 export default function Navbar() {
   const [open, setOpen] = useState(false)
@@ -29,8 +28,8 @@ export default function Navbar() {
     <header className="w-full bg-background text-foreground">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         {/* Logo */}
-        <Link href="/" className="text-xl font-bold tracking-wide">
-          AskGuru
+        <Link href="/" className=" w-auto">
+          <Image src='/askguruLogo.png' alt="askguru_logo" width={120} height={120}/>
         </Link>
 
         {/* Desktop Nav */}

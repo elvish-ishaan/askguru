@@ -26,13 +26,13 @@ export default function HeroSection() {
         <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white font-noticia w-full">
           Make Your Website <span className="text-[var(--primary)] inline-block">Conversational</span>
         </h1>
-        <p className=" mt-10 text-lg sm:text-xl text-slate-300 font-firaSans max-w-3xl">
+        <p className=" mt-6 text-lg sm:text-xl text-slate-300 font-numans max-w-3xl">
           Transform how users interact with your brand through intelligent, engaging, and human-like conversations directly on your site.
         </p>
         <CopyCommand/>
 
         {/* CTA Buttons */}
-        <div className="my-6 flex flex-col sm:flex-row gap-4">
+        <div className="my-8 flex flex-col sm:flex-row gap-4">
           <Button className="bg-[var(--primary)] text-[var(--primary-foreground)] px-6 py-3 text-lg hover:opacity-90">
             Get Started
           </Button>
@@ -44,8 +44,8 @@ export default function HeroSection() {
                 {/* mock screeen */}
         <div className="w-[1203px]">
       <Safari
-        url="www.example.com"
-        imageSrc="https://placehold.co/1200x750?text=Hello+World"
+        url="www.askguru.ai"
+        imageSrc="./askguru.png"
       />
         </div>
       </div>
