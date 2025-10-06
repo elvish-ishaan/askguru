@@ -9,21 +9,24 @@ import { signIn } from "next-auth/react"
 import { useRouter } from "next/navigation"
 
 export default function AuthPage() {
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState<boolean>(false)
   const router = useRouter()
+  const [email, setEmail] = useState<string | null>(null)
+  const [password, setPassword] = useState<string | null>(null)
+  const [error, setError] = useState<string | null>(null)
   
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault()
    try {
      setLoading(true)
     const res = await signIn("credentials", {
-        email: "admin@gmail.com",
-        password: "passowrkd",
-        callbackUrl: "/projects",
+        email: email,
+        password: password,
         redirect: false
     })
     if(!res?.ok){
-        alert("somthig went worng")
+        setError("invalid credentials")
+        return
     }
     router.push("/projects")
    } catch (error) {
@@ -40,8 +43,9 @@ export default function AuthPage() {
       <div className="flex w-full md:w-1/2 items-center justify-center bg-[var(--background)] px-6">
         <Card className="w-full max-w-md border bg-[var(--card)] shadow-lg">
           <CardHeader>
-            <CardTitle className="text-center text-2xl font-bold text-[var(--foreground)]">
-              Welcome back to AskGuru
+            <CardTitle className="text-center font-numans text-xl font-bold text-[var(--foreground)]">
+              <h1>Welcome back to <span className=" text-primary text-3xl">AskGuru</span></h1>
+              { error && <span className=" text-red-500 text-sm">{error}</span>}
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -51,6 +55,8 @@ export default function AuthPage() {
                   Email
                 </label>
                 <Input
+                  onChange={(e) => setEmail(e.target.value)}
+                  value={email || ""}
                   type="email"
                   placeholder="you@example.com"
                   required
@@ -63,6 +69,8 @@ export default function AuthPage() {
                   Password
                 </label>
                 <Input
+                  onChange={(e) => setPassword(e.target.value)}
+                  value={password || ""}
                   type="password"
                   placeholder="********"
                   required
@@ -122,7 +130,7 @@ export default function AuthPage() {
         />
         <div className="relative z-10 text-center px-6">
           <h1 className="text-4xl font-bold text-white drop-shadow-lg">
-            Greetings from AskGuru 👋
+            <span className=" text-5xl bg-white rounded-md text-primary px-3 shadow font-numans">AskGuru</span>
           </h1>
           <p className="mt-4 text-lg text-white/90 max-w-md mx-auto">
             Empower your website with smart, conversational AI. Sign in and start your journey today.

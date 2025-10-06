@@ -47,8 +47,8 @@ model Thread {
   projectId String
   project Project @relation(fields: [projectId], references: [id])
   conversations Conversation[]
-  usageId   String
-  usage     Usage @relation(fields: [usageId], references: [id])
+  usageId   String?
+  usage     Usage? @relation(fields: [usageId], references: [id])
   created_at  DateTime @default(now())
   updated_at  DateTime @default(now())
 }

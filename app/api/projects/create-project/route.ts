@@ -24,7 +24,7 @@ export async function POST(req: NextRequest) {
                 data: {
                     title,
                     sourceUrl,
-                    excludePaths: [excludePaths],
+                    excludePaths: excludePaths,
                     allowedOrigin,
                     //@ts-expect-error fix the typo error
                     userId: session.user?.id
@@ -37,7 +37,7 @@ export async function POST(req: NextRequest) {
             const loader = new RecursiveUrlLoader(sourceUrl, {
               extractor: compiledConvert,
               maxDepth: 1,
-              excludeDirs: [excludePaths],
+              excludeDirs: excludePaths,
             });
     
             const docs = await loader.load();

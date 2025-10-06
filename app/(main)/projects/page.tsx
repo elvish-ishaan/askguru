@@ -43,7 +43,7 @@ export default function ProjectsPage() {
     <div className="min-h-screen w-full bg-[var(--background)] text-[var(--foreground)] px-6 py-10">
       {/* Header */}
       <div className="mx-auto max-w-6xl flex items-center justify-between">
-        <h1 className="text-3xl font-bold tracking-tight">Projects</h1>
+        <h1 className="text-3xl font-medium text-primary">Projects</h1>
         <Button
           onClick={() => router.push("/projects/new")}
           className="flex items-center gap-2 bg-[var(--primary)] text-[var(--primary-foreground)] hover:opacity-90"

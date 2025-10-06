@@ -19,9 +19,10 @@ export default function Home() {
       <CtaCard/>
       <Footer/>
       <ChatWedget config={{
-        apiEndpoint: "/askguruLogo.png",
-        apiKey: "89a448260f6a102309de8605f30be5d07aa13c1378f114e36d81c7dc8360771c",
+        apiEndpoint: "http://localhost:3000/api/chat",
+        apiKey: "8532cf8e9b6bacd0b7712998105ea549cbcf38c2e76d54a12895b0c6eeca7dd3",
         theme: "#715bff",
+        logoImage: "/askguruLogo.png",
         botName: "Ask Guru"
       }} />
     </main>

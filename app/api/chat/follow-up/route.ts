@@ -50,17 +50,6 @@ export async function POST(req: NextRequest){
             })
         }
         console.log(project,'sucessfully got project db')
-        // Define the filter
-        // const filter = {
-        //   must: [
-        //     {
-        //       key: "metadata.projectId", // Filter by a metadata field named 'source'
-        //       match: {
-        //         value: project.id, 
-        //       },
-        //     },
-        //   ],
-        // };
 
         //fetch thread 
         const thread = await prisma.thread.findUnique({
@@ -77,9 +66,21 @@ export async function POST(req: NextRequest){
                 message: "no thread found"
             })
         }
+
+        // Define the filter
+        const filter = {
+          must: [
+            {
+              key: "metadata.projectId", // Filter by a metadata field named 'source'
+              match: {
+                value: project.id, 
+              },
+            },
+          ],
+        };
         
         //use similarity search to fetch similiar data(context)
-        const context = await vectorStore.similaritySearch(query, 2)
+        const context = await vectorStore.similaritySearch(query, 2, filter)
         console.log(context,'geting context..........')
         //prepare the conversation
         const conversationHistory = thread.conversations.map(( x ) => {
@@ -118,6 +119,24 @@ export async function POST(req: NextRequest){
                 }
             }
         })
+        //update the usage details
+        const updatedUsage = await prisma.usage.update({
+            where: {
+                projectId: project.id
+            },
+            data: {
+                totalApiCalls: {
+                    increment: 1
+                },
+                totalMessages: {
+                    increment: 1
+                },
+                totalTokensUsed: {
+                    increment: generatedLlmRes.usage_metadata?.total_tokens
+                }
+            },
+        })
+        console.log(updatedUsage,'updated usage.......')
         //return res
         return NextResponse.json({
             success: true,

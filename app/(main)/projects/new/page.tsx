@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import React, { useState } from "react"
 import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import {
@@ -18,15 +18,24 @@ export default function CreateProjectPage() {
   const [formData, setFormData] = useState({
     title: "",
     sourceUrl: "",
-    excludePaths: "",
     allowedOrigin: "",
   })
-  const [loading, setLoading] = useState(false)
+  const [excludePaths, setExcludePaths] = useState< string[] | []>()
+  const [loading, setLoading] = useState<boolean>(false)
   const [error, setError] = useState<string | null>(null)
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
     setFormData((prev) => ({ ...prev, [name]: value }))
+  }
+
+  const handleExcludePathsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value  // "/api, /private"
+    //split the value on comma based
+    const splittedValues = value.split(",")    // ["/api", "/private"]
+    //set the state 
+    const trimmedValues = splittedValues.map(x => x.trim()) //trim the whitespce
+    setExcludePaths(trimmedValues)
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -40,7 +49,7 @@ export default function CreateProjectPage() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({...formData, excludePaths}),
       })
 
       if (!res.ok) {
@@ -102,8 +111,8 @@ export default function CreateProjectPage() {
               <Input
                 id="excludePaths"
                 name="excludePaths"
-                value={formData.excludePaths}
-                onChange={handleChange}
+                
+                onChange={handleExcludePathsChange}
                 placeholder="/admin, /private"
                 className="bg-[var(--background)] text-[var(--foreground)]"
               />
@@ -130,7 +139,7 @@ export default function CreateProjectPage() {
             )}
           </CardContent>
 
-          <CardFooter className="flex justify-end gap-4">
+          <CardFooter className="flex justify-end gap-4 mt-5">
             <Button
               type="button"
               variant="outline"

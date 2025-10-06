@@ -23,7 +23,7 @@ export default function ProjectSidebar() {
   return (
     <aside className="w-64 min-h-[80vh] border-r bg-[var(--sidebar)] text-[var(--sidebar-foreground)] flex flex-col">
       {/* Sidebar Header */}
-      <div className="h-16 flex items-center px-6 font-bold text-lg border-b">
+      <div className="h-16 flex items-center px-6 font-medium text-lg border-b ">
         Project Settings
       </div>
 
@@ -36,7 +36,7 @@ export default function ProjectSidebar() {
             <Link
               key={link.name}
               href={`/projects/${projectId}${link.href}`}
-              className={`flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
+              className={`flex items-center gap-3 rounded-lg hover:bg-secondary px-3 py-2 text-sm font-medium transition-colors ${
                 isActive
                   ? "bg-[var(--sidebar-accent)] text-[var(--sidebar-accent-foreground)]"
                   : "hover:bg-[var(--muted)]"

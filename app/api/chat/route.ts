@@ -7,16 +7,6 @@ import { NextRequest, NextResponse } from "next/server";
 
 
 export async function POST(req: NextRequest){
-    // const headers = {
-    //     'Access-Control-Allow-Origin': 'https://your-frontend-domain.com',
-    //     'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
-    //     'Access-Control-Allow-Headers': 'Content-Type',
-    //   };
-
-    //   // Handle preflight requests (OPTIONS)
-    //   if (req.method === 'OPTIONS') {
-    //     return new Response(null, { status: 204, headers });
-    //   }
 
     try {
         const authorization = req.headers.get("authorization")
@@ -82,7 +72,7 @@ export async function POST(req: NextRequest){
             {
               key: "metadata.projectId", // Filter by a metadata field named 'source'
               match: {
-                value: project.id, 
+                value: project?.id, 
               },
             },
           ],
@@ -130,6 +120,34 @@ export async function POST(req: NextRequest){
                 }
             }
         })
+        //update usage if not present create new and set value
+        const usage = await prisma.usage.upsert({
+            where: {
+                projectId: project.id
+            },
+            update: {
+                totalApiCalls: {
+                    increment: 1
+                },
+                totalMessages: {
+                    increment: 1
+                },
+                totalTokensUsed: {
+                    increment: generatedLlmRes.usage_metadata?.total_tokens
+                },
+                totalThreads: {
+                    increment: 1
+                }
+            },
+            create: {
+                projectId: project.id,
+                totalApiCalls: 1,
+                totalMessages: 1,
+                totalTokensUsed: 1,
+                totalThreads: 1
+            }
+        })
+        console.log(usage,'usage created......')
         //return res
         return NextResponse.json({
             success: true,

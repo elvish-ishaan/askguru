@@ -79,7 +79,7 @@ export default function ApiKeysPage() {
   }
 
   const maskSecret = (secret: string) => {
-    return `${secret.slice(0, 8)}${"*".repeat(24)}${secret.slice(-8)}`
+    return `${secret?.slice(0, 8)}${"*".repeat(24)}${secret?.slice(-8)}`
   }
 
   return (

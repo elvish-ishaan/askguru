@@ -45,7 +45,7 @@ export default function Features() {
         {/* Section Header */}
         <div className="text-center mb-16">
           <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
-            Why Choose AskGuru?
+            Why Choose <span className=" text-primary text-5xl">AskGuru</span>?
           </h2>
           <p className="mt-4 text-muted-foreground max-w-2xl mx-auto">
             Discover the powerful features that make AskGuru the best solution for creating conversational websites.

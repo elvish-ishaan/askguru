@@ -3,6 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
     const {userId, name, email, password} = await req.json()
+    console.log(password,'getting password......')
     // if(!userId){
     //     return NextResponse.json({
     //         success: false,
@@ -29,20 +30,40 @@ export async function POST(req: NextRequest) {
 
         //if user is created through credentials
         if(password){
-            //if not then create one
-            const newUser = await prisma.user.create({
+            //check user with correct password
+            const existingUser = await prisma.user.findFirst({
+                where: {
+                    email: email
+                }
+            })
+            if(!existingUser){
+              //if not then create one
+              const newUser = await prisma.user.create({
                 data: {
-                    name: name,
                     email,
                     password
                 }
-            })
-            //remove the password
-            newUser.password = null;
-            return NextResponse.json({
+              })
+              //remove the password
+              newUser.password = null;
+              return NextResponse.json({
                 success: true,
                 message: "user created by credentails",
                 user: newUser
+              })
+            }
+            //compare the password
+            if(password !== existingUser.password){
+                return NextResponse.json({
+                    success: false,
+                    message: "invalid password"
+                })
+            }
+            //else return the res
+            return NextResponse.json({
+                success: true,
+                message: "logged in",
+                user: existingUser
             })
         }
         //if not then create one
