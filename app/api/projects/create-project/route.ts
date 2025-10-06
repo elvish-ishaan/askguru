@@ -18,7 +18,6 @@ export async function POST(req: NextRequest) {
     }
     try {
         const { title, sourceUrl, excludePaths, allowedOrigin } = await req.json()
-        console.log(excludePaths,'getting exclude paths')
         try {
             const project = await prisma.project.create({
                 data: {
@@ -55,8 +54,7 @@ export async function POST(req: NextRequest) {
             }
             console.log(allSplits,'getting mapped result....')
             try {
-                const vectorData = await vectorStore.addDocuments(allSplits);
-            console.log(vectorData,'getting vector data stored........')
+                await vectorStore.addDocuments(allSplits);
             } catch (error) {
                 console.log(error,'error in saving vector to db..........')
             }
