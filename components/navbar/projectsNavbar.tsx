@@ -5,7 +5,6 @@ import { useEffect, useState } from "react"
 import { Skeleton } from "@/components/ui/skeleton"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Button } from "../ui/button"
-import { Plus } from "lucide-react"
 
 type Project = {
   id: string

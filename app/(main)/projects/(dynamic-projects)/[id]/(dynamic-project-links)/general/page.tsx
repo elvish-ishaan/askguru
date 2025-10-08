@@ -20,7 +20,6 @@ export default function ProjectPage() {
   const { id: projectId } = useParams()
   const [project, setProject] = useState<Project | null>(null)
   const [loading, setLoading] = useState(false)
-  const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
     if (!projectId) return
@@ -50,14 +49,6 @@ export default function ProjectPage() {
       <div className="flex items-center justify-center h-screen text-[var(--foreground)]">
         <Loader2 className="h-6 w-6 animate-spin mr-2" />
         Loading project...
-      </div>
-    )
-  }
-
-  if (error) {
-    return (
-      <div className="flex items-center justify-center h-screen text-[var(--destructive)]">
-        {error}
       </div>
     )
   }

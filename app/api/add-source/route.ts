@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { RecursiveUrlLoader } from "@langchain/community/document_loaders/web/recursive_url";
-import { vectorStore } from "@/lib/core/vectorStore";
-import { ChatOpenAI } from "@langchain/openai";
+// import { vectorStore } from "@/lib/core/vectorStore";
+// import { ChatOpenAI } from "@langchain/openai";
 import { RecursiveCharacterTextSplitter } from "@langchain/textsplitters";
 import { compile } from 'html-to-text'
 

@@ -1,7 +1,7 @@
 "use client"
 
 import { motion } from "framer-motion"
-import { Cloud, Globe, Layers, Rocket, Star, Sun, Zap, Box } from "lucide-react"
+import { Cloud, Globe, Layers, Rocket, Star, Sun, Box } from "lucide-react"
 
 const partners = [
   { name: "Nova", icon: Rocket },

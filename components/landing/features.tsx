@@ -2,7 +2,6 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Bot, KeyRound, BarChart3, Shield, Settings, Plug } from "lucide-react"
-import { LightRays } from "../ui/light-rays"
 
 const features = [
   {
