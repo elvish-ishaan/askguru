@@ -4,6 +4,15 @@ import { followUpSystemPrompt, } from "@/lib/systemPrompt";
 import prisma from "@/prisma/dbClient";
 import { NextRequest, NextResponse } from "next/server";
 
+interface Conversation {
+    query: string;
+    id: string;
+    created_at: Date;
+    updated_at: Date;
+    threadId: string;
+    llmResponce: string;
+}
+
 export async function POST(req: NextRequest){
 
     try {
@@ -83,7 +92,7 @@ export async function POST(req: NextRequest){
         const context = await vectorStore.similaritySearch(query, 2, filter)
         console.log(context,'geting context..........')
         //prepare the conversation
-        const conversationHistory = thread.conversations.map(( x ) => {
+        const conversationHistory = thread.conversations.map(( x: Conversation ) => {
             return {
                 user: x.query,
                 ai: x.llmResponce
