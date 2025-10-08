@@ -12,8 +12,8 @@ interface Project {
   sourceUrl: string
   excludePaths: string
   allowedOrigin: string
-  createdAt: string
-  updatedAt: string
+  created_at: string;
+  updated_at: string
 }
 
 export default function ProjectPage() {
@@ -100,8 +100,8 @@ export default function ProjectPage() {
           </div>
 
           <div className="flex justify-between text-sm text-[var(--muted-foreground)]">
-            <span>Created: {new Date(project?.createdAt).toLocaleString()}</span>
-            <span>Updated: {new Date(project?.updatedAt).toLocaleString()}</span>
+            <span>Updated: {new Date(project?.created_at).toLocaleString()}</span>
+            <span>Updated: {new Date(project?.updated_at).toLocaleString()}</span>
           </div>
         </CardContent>
       </Card>

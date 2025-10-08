@@ -83,7 +83,7 @@ export default function ProjectsPage() {
                 </div>
               </CardHeader>
               <CardContent>
-                <p className="text-sm text-[var(--muted-foreground)]">{project?.created_at}</p>
+                <p className="text-sm text-[var(--muted-foreground)]">{project?.created_at.toString()}</p>
               </CardContent>
               <CardFooter>
                 <Button

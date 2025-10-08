@@ -1,15 +1,9 @@
 import prisma from "@/prisma/dbClient";
 import { NextRequest, NextResponse } from "next/server";
+import bcrypt from 'bcrypt'
 
 export async function POST(req: NextRequest) {
     const {userId, name, email, password} = await req.json()
-    console.log(password,'getting password......')
-    // if(!userId){
-    //     return NextResponse.json({
-    //         success: false,
-    //         message: "user id not found"
-    //     })
-    // }
     try {
         if(userId){
             const user = await prisma.user.findUnique({
@@ -38,10 +32,12 @@ export async function POST(req: NextRequest) {
             })
             if(!existingUser){
               //if not then create one
+              //create the password hash
+              const hashedPassword = await bcrypt.hash(password, 10)
               const newUser = await prisma.user.create({
                 data: {
                     email,
-                    password
+                    password: hashedPassword
                 }
               })
               //remove the password
@@ -53,7 +49,8 @@ export async function POST(req: NextRequest) {
               })
             }
             //compare the password
-            if(password !== existingUser.password){
+            const isPasswordCorrect = await bcrypt.compare(password, existingUser.password!)
+            if(!isPasswordCorrect){
                 return NextResponse.json({
                     success: false,
                     message: "invalid password"
