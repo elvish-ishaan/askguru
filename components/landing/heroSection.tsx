@@ -6,7 +6,7 @@ import { Safari } from "../ui/safari"
 
 export default function HeroSection() {
   return (
-    <section className="relative min-h-[92vh] w-full bg-[#020617] flex pt-20 pb-5 justify-center text-center px-6">
+    <section className="relative min-h-[92vh] w-full bg-primary flex pt-20 pb-5 justify-center text-center px-6">
       {/* Dark Sphere Grid Background */}
       <div
         className="absolute inset-0 z-0"

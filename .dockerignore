@@ -1,0 +1,4 @@
+/node_modules
+/.next
+/postgres-data-askguru
+/qdrant-data-askguru

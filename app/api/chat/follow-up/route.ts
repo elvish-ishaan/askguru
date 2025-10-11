@@ -19,11 +19,12 @@ export async function POST(req: NextRequest){
         const authorization = req.headers.get("authorization")
         const apiKey = authorization?.split(" ")[1]
 
-        if(!apiKey && typeof(apiKey) == "string"){
+        // Fixed: Use OR instead of AND, and !== instead of ==
+        if(!apiKey || typeof(apiKey) !== "string"){
             return NextResponse.json({
                 success: false,
                 message: "api key not found"
-            })
+            }, { status: 401 })
         }
 
         const { query, threadId, } = await req.json()
@@ -31,8 +32,17 @@ export async function POST(req: NextRequest){
             return NextResponse.json({
                 success: false,
                 message: "all params are required"
-            })
+            }, { status: 400 })
         }
+
+        // Validate threadId
+        if(!threadId || typeof(threadId) !== "string"){
+            return NextResponse.json({
+                success: false,
+                message: "valid threadId is required"
+            }, { status: 400 })
+        }
+
         //fetch the apikey metadata 
         const apiKeyDetails = await prisma.apiKey.findFirst({
             where: {
@@ -44,7 +54,7 @@ export async function POST(req: NextRequest){
             return NextResponse.json({
                 success: false,
                 message: 'invalid api-key'
-            })
+            }, { status: 401 })
         }
         //fetch the project info using projectid
         const project = await prisma.project.findFirst({
@@ -56,7 +66,7 @@ export async function POST(req: NextRequest){
             return NextResponse.json({
                 success: false,
                 message: 'no project found'
-            })
+            }, { status: 404 })
         }
         console.log(project,'sucessfully got project db')
 
@@ -73,7 +83,7 @@ export async function POST(req: NextRequest){
             return NextResponse.json({
                 success: false,
                 message: "no thread found"
-            })
+            }, { status: 404 })
         }
 
         // Define the filter
@@ -141,7 +151,7 @@ export async function POST(req: NextRequest){
                     increment: 1
                 },
                 totalTokensUsed: {
-                    increment: generatedLlmRes.usage_metadata?.total_tokens
+                    increment: generatedLlmRes.usage_metadata?.total_tokens || 0
                 }
             },
         })
@@ -156,6 +166,6 @@ export async function POST(req: NextRequest){
         return NextResponse.json({
             success: false,
             message: 'internal server error'
-        })
+        }, { status: 500 })
     }
 }

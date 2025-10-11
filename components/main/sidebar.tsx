@@ -10,6 +10,7 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet"
 import { signOut } from "next-auth/react"
+import { ThemeToggle } from "./themeToggle"
 
 export default function Sidebar() {
   const [open, setOpen] = useState(false)
@@ -39,7 +40,8 @@ export default function Sidebar() {
       </nav>
 
       {/* Sign Out Button */}
-      <div className="p-3 border-t">
+      <div className="p-3 border-t flex justify-center gap-2 mx-auto">
+        <ThemeToggle position="top"/>
         <Button
           onClick={() => signOut({callbackUrl: "/"})}
           variant="outline"
