@@ -19,8 +19,8 @@ export default function Home() {
       <CtaCard/>
       <Footer/>
       <ChatWedget config={{
-        apiEndpoint: "http://localhost:3000/api/chat",
-        apiKey: "8532cf8e9b6bacd0b7712998105ea549cbcf38c2e76d54a12895b0c6eeca7dd3",
+        apiEndpoint: "http://askguru.dryink.space/api/chat",
+        apiKey: process.env.NEXT_PUBLIC_ASKGURU_API_KEY!,
         theme: "#715bff",
         logoImage: "/askguruLogo.png",
         botName: "Ask Guru"
