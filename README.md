@@ -1,4 +1,4 @@
-@'
+
 # AskGuru
 
 AskGuru is an AI-powered knowledge assistant and project workspace built with Next.js. It integrates language models, vector search (Qdrant), and a PostgreSQL database (via Prisma) to provide searchable, conversational access to project sources and user-provided content.
