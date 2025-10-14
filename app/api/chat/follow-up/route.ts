@@ -99,7 +99,12 @@ export async function POST(req: NextRequest){
         };
         
         //use similarity search to fetch similiar data(context)
-        const context = await vectorStore.similaritySearch(query, 2, filter)
+        let context;
+        try {
+            context = await vectorStore.similaritySearch(query, 2, filter)
+        } catch (error) {
+            console.log(error,'error in similarity search vector store')
+        }
         console.log(context,'geting context..........')
         //prepare the conversation
         const conversationHistory = thread.conversations.map(( x: Conversation ) => {

@@ -82,6 +82,13 @@ export async function POST(req: NextRequest){
         } catch (error) {
             console.log(error,'error in fetching context from vector store')
         }
+        if(!context){
+            console.log("no context found");
+            return NextResponse.json({
+                success: false,
+                message: 'no context found, please add data to your project'
+            })
+        }
         console.log(context,'geting context..........')
         //provide most similar data with conversation(if present) to llm
         const generatedLlmRes = await model.invoke(systemPrompt(JSON.stringify(context), query))
