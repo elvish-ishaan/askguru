@@ -56,6 +56,7 @@ export async function POST(req: NextRequest){
         const url = new URL(project.allowedOrigin);
         const  allowedHost = url.host
         if(host !== allowedHost){
+            console.log(host,allowedHost,'getting host and allowed host')
             return NextResponse.json({
                 success: false,
                 message: 'host does not match with allowed origin'
