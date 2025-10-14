@@ -1,7 +1,7 @@
-import { NextApiRequest } from "next"
-import { NextResponse } from "next/server"
+import { NextRequest, NextResponse } from "next/server"
 
-export function middleware(req: NextApiRequest) {
+export function middleware(req: NextRequest) {
+  console.log('middleware called....')
   const res = NextResponse.next()
 
   res.headers.set("Access-Control-Allow-Origin", "*")
