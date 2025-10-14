@@ -76,7 +76,12 @@ export async function POST(req: NextRequest){
           ],
         };
         //use similarity search to fetch similiar data(context)
-        const context = await vectorStore.similaritySearch(query, 2, filter)
+        let context;
+        try {
+          context = await vectorStore.similaritySearch(query, 2, filter)
+        } catch (error) {
+            console.log(error,'error in fetching context from vector store')
+        }
         console.log(context,'geting context..........')
         //provide most similar data with conversation(if present) to llm
         const generatedLlmRes = await model.invoke(systemPrompt(JSON.stringify(context), query))
