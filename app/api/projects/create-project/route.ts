@@ -57,6 +57,10 @@ export async function POST(req: NextRequest) {
                 await vectorStore.addDocuments(allSplits);
             } catch (error) {
                 console.log(error,'error in saving vector to db..........')
+                return NextResponse.json({
+                    success: false,
+                    message: 'error in saving document vectors'
+                }, { status: 500 })
             }
 
             //return the response

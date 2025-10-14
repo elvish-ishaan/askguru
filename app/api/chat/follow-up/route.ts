@@ -85,23 +85,13 @@ export async function POST(req: NextRequest){
                 message: "no thread found"
             }, { status: 404 })
         }
-
-        // Define the filter
-        const filter = {
-          must: [
-            {
-              key: "metadata.projectId", // Filter by a metadata field named 'source'
-              match: {
-                value: project.id, 
-              },
-            },
-          ],
-        };
         
         //use similarity search to fetch similiar data(context)
         let context;
         try {
-            context = await vectorStore.similaritySearch(query, 2, filter)
+            context = await vectorStore.similaritySearch(query, 2, {
+                projectId: project.id
+            });
         } catch (error) {
             console.log(error,'error in similarity search vector store')
         }
