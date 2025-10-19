@@ -53,7 +53,9 @@ export async function POST(req: NextRequest){
 
         //check if req is comming from allowedOrigin of project
         const host = req.headers.get('host');
-        const url = new URL(project.allowedOrigin);
+        console.log(host,'getting origin host.........')
+        const url = new URL(project.allowedOrigin?.trim());
+        console.log(url.host,'getting project saved host.........')
         const  allowedHost = url.host
         if(host !== allowedHost){
             console.log(host,allowedHost,'getting host and allowed host')
