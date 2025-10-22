@@ -1,51 +1,67 @@
-"use client"
+"use client";
 
-import { useRouter } from "next/navigation"
-import { useEffect, useState } from "react"
-import { Skeleton } from "@/components/ui/skeleton"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Button } from "../ui/button"
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { Skeleton } from "@/components/ui/skeleton";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Button } from "../ui/button";
+import { usePathname } from "next/navigation";
 
 type Project = {
-  id: string
-  title: string
-  sourceUrl: string
-  excludePaths: string[]
-  allowedOrigin: string
-  created_at: string
-  updated_at: string
-}
+  id: string;
+  title: string;
+  sourceUrl: string;
+  excludePaths: string[];
+  allowedOrigin: string;
+  created_at: string;
+  updated_at: string;
+};
 
 export default function ProjectsNavbar() {
-  const [projects, setProjects] = useState<Project[]>([])
-  const [selectedId, setSelectedId] = useState<string | null>(null)
-  const [loading, setLoading] = useState(true)
-  const router = useRouter()
+  const [projects, setProjects] = useState<Project[]>([]);
+  const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
+  const router = useRouter();
+  const pathname = usePathname();
 
   useEffect(() => {
     async function fetchProjects() {
       try {
-        const res = await fetch("/api/projects")
-        const data = await res.json()
-        setProjects(data.projects || [])
+        const res = await fetch("/api/projects");
+        const data = await res.json();
+        setProjects(data.projects || []);
+
+        const match = pathname.match(/\/projects\/([^/]+)/);
+        const currentId = match ? match[1] : null;
+
         if (data.projects?.length) {
-          setSelectedId(data.projects[0].id)
-          router.push(`/projects/${data.projects[0].id}/general`)
+          if (currentId) {
+            setSelectedId(currentId);
+          } else {
+            setSelectedId(data.projects[0].id);
+            router.push(`/projects/${data.projects[0].id}/general`);
+          }
         }
       } catch (err) {
-        console.error("Failed to fetch projects", err)
+        console.error("Failed to fetch projects", err);
       } finally {
-        setLoading(false)
+        setLoading(false);
       }
     }
-    fetchProjects()
-  }, [router])
+    fetchProjects();
+  }, [router, pathname]);
 
   useEffect(() => {
     if (selectedId) {
-      router.push(`/projects/${selectedId}/general`)
+      router.push(`/projects/${selectedId}/general`);
     }
-  }, [selectedId, router])
+  }, [selectedId, router]);
 
   if (loading) {
     return (
@@ -53,7 +69,7 @@ export default function ProjectsNavbar() {
         <Skeleton className="h-8 w-24 rounded" />
         <Skeleton className="h-10 w-48 rounded" />
       </div>
-    )
+    );
   }
 
   if (!projects.length) {
@@ -61,27 +77,38 @@ export default function ProjectsNavbar() {
       <div className="w-full px-4 py-2 border-b text-gray-500">
         No projects found
       </div>
-    )
+    );
   }
 
   return (
     <div className="w-full px-4 py-2 border-b flex items-center gap-4">
-      <span className="font-semibold text-[var(--foreground)]">Select Project:</span>
-      <Select value={selectedId || ""} onValueChange={(val) => setSelectedId(val)}>
+      <span className="font-semibold text-[var(--foreground)]">
+        Select Project:
+      </span>
+      <Select
+        value={selectedId || ""}
+        onValueChange={(val) => setSelectedId(val)}
+      >
         <SelectTrigger className="w-48">
           <SelectValue placeholder="Select a project" />
         </SelectTrigger>
         <SelectContent>
           {projects.map((project) => (
             <div key={project.id}>
-            <SelectItem key={project.id} value={project.id}>
-              {project.title}
-            </SelectItem>
+              <SelectItem key={project.id} value={project.id}>
+                {project.title}
+              </SelectItem>
             </div>
           ))}
-          <Button onClick={() => router.push("/projects/new")} className=" w-full text-start mt-2" variant={"outline"}>New</Button>
+          <Button
+            onClick={() => router.push("/projects/new")}
+            className=" w-full text-start mt-2"
+            variant={"outline"}
+          >
+            New
+          </Button>
         </SelectContent>
       </Select>
     </div>
-  )
+  );
 }
