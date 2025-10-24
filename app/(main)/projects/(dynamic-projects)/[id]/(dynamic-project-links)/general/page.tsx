@@ -1,48 +1,48 @@
-"use client"
+"use client";
 
-import { useEffect, useState } from "react"
-import { useParams } from "next/navigation"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Loader2 } from "lucide-react"
+import { useEffect, useState } from "react";
+import { useParams } from "next/navigation";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Loader2 } from "lucide-react";
 
 // Example interface you mentioned
 interface Project {
-  id: string
-  title: string
-  sourceUrl: string
-  excludePaths: string
-  allowedOrigin: string
+  id: string;
+  title: string;
+  sourceUrl: string;
+  excludePaths: string;
+  allowedOrigin: string;
   created_at: string;
-  updated_at: string
+  updated_at: string;
 }
 
 export default function ProjectPage() {
-  const { id: projectId } = useParams()
-  const [project, setProject] = useState<Project | null>(null)
-  const [loading, setLoading] = useState(false)
+  const { id: projectId } = useParams();
+  const [project, setProject] = useState<Project | null>(null);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    if (!projectId) return
+    if (!projectId) return;
 
     const fetchProject = async () => {
       try {
-        setLoading(true)
-        const res = await fetch(`/api/projects/${projectId}`)
-        const data = await res.json()
-        console.log(data,'getting project data')
-        if(!data.success){
-          return
+        setLoading(true);
+        const res = await fetch(`/api/projects/${projectId}`);
+        const data = await res.json();
+        console.log(data, "getting project data");
+        if (!data.success) {
+          return;
         }
-        setProject(data?.project)
+        setProject(data?.project);
       } catch (error) {
-        console.log(error,'error in fetching porject-id data')
-      }finally{
-        setLoading(false)
+        console.log(error, "error in fetching porject-id data");
+      } finally {
+        setLoading(false);
       }
-    }
+    };
 
-    fetchProject()
-  }, [projectId])
+    fetchProject();
+  }, [projectId]);
 
   if (loading) {
     return (
@@ -50,7 +50,7 @@ export default function ProjectPage() {
         <Loader2 className="h-6 w-6 animate-spin mr-2" />
         Loading project...
       </div>
-    )
+    );
   }
 
   if (!project) {
@@ -58,7 +58,7 @@ export default function ProjectPage() {
       <div className="flex items-center justify-center h-screen text-[var(--foreground)]">
         Project not found.
       </div>
-    )
+    );
   }
 
   return (
@@ -97,5 +97,5 @@ export default function ProjectPage() {
         </CardContent>
       </Card>
     </div>
-  )
+  );
 }
