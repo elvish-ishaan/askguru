@@ -46,7 +46,7 @@ export default function ProjectPage() {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center h-screen text-[var(--foreground)]">
+      <div className="fixed inset-0 flex items-center justify-center  h-screen w-full   text-[var(--foreground)]">
         <Loader2 className="h-6 w-6 animate-spin mr-2" />
         Loading project...
       </div>
@@ -55,14 +55,14 @@ export default function ProjectPage() {
 
   if (!project) {
     return (
-      <div className="flex items-center justify-center h-screen text-[var(--foreground)]">
+      <div className="fixed inset-0 flex items-center justify-center h-screen text-[var(--foreground)]">
         Project not found.
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen w-full bg-[var(--background)] text-[var(--foreground)] flex items-center justify-center px-6 py-12">
+    <div className="min-h-screen w-full  bg-[var(--background)] text-[var(--foreground)] flex items-center justify-center px-6 py-12">
       <Card className="w-full max-w-3xl border bg-[var(--card)] shadow-lg">
         <CardHeader>
           <CardTitle className="text-2xl font-bold">{project?.title}</CardTitle>
@@ -91,8 +91,12 @@ export default function ProjectPage() {
           </div>
 
           <div className="flex justify-between text-sm text-[var(--muted-foreground)]">
-            <span>Updated: {new Date(project?.created_at).toLocaleString()}</span>
-            <span>Updated: {new Date(project?.updated_at).toLocaleString()}</span>
+            <span>
+              Updated: {new Date(project?.created_at).toLocaleString()}
+            </span>
+            <span>
+              Updated: {new Date(project?.updated_at).toLocaleString()}
+            </span>
           </div>
         </CardContent>
       </Card>

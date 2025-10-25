@@ -2,3 +2,5 @@
 /.next
 /postgres-data-askguru
 /qdrant-data-askguru
+
+.env

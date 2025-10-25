@@ -1,9 +1,9 @@
-"use client"
+"use client";
 
-import { useEffect, useState } from "react"
-import { Button } from "@/components/ui/button"
-import { Loader2, Copy, Check } from "lucide-react"
-import { useParams } from "next/navigation"
+import { useEffect, useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Loader2, Copy, Check } from "lucide-react";
+import { useParams } from "next/navigation";
 import {
   Table,
   TableBody,
@@ -11,62 +11,62 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table"
+} from "@/components/ui/table";
 
 interface ApiKey {
-  id: string
-  secret: string
-  projectId: string
-  created_at: string
+  id: string;
+  secret: string;
+  projectId: string;
+  created_at: string;
 }
 
 export default function ApiKeysPage() {
-  const { id: projectId } = useParams()
-  const [keys, setKeys] = useState<ApiKey[]>([])
-  const [loading, setLoading] = useState(false)
-  const [copiedKey, setCopiedKey] = useState<string | null>(null)
+  const { id: projectId } = useParams();
+  const [keys, setKeys] = useState<ApiKey[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [copiedKey, setCopiedKey] = useState<string | null>(null);
 
   // Fetch keys on load
   useEffect(() => {
     const fetchKeys = async () => {
       try {
-        setLoading(true)
-        const res = await fetch(`/api/projects/${projectId}/api-keys`)
-        const data = await res.json()
-        if (!data.success) return
-        setKeys(data?.apikeys)
+        setLoading(true);
+        const res = await fetch(`/api/projects/${projectId}/api-keys`);
+        const data = await res.json();
+        if (!data.success) return;
+        setKeys(data?.apikeys);
       } catch (error) {
-        console.error("Error fetching API keys:", error)
+        console.error("Error fetching API keys:", error);
       } finally {
-        setLoading(false)
+        setLoading(false);
       }
-    }
-    fetchKeys()
-  }, [projectId])
+    };
+    fetchKeys();
+  }, [projectId]);
 
   const handleGenerateKey = async () => {
     try {
-      setLoading(true)
+      setLoading(true);
       const res = await fetch(`/api/projects/${projectId}/api-keys`, {
         method: "POST",
         body: JSON.stringify({ projectId }),
-      })
-      const data = await res.json()
+      });
+      const data = await res.json();
       if (data.success) {
-        setKeys((prev) => [data.key, ...prev])
+        setKeys((prev) => [data.apiKey, ...prev]);
       }
     } catch (err) {
-      console.error("Error generating key", err)
+      console.error("Error generating key", err);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   const handleCopy = (key: string) => {
-    navigator.clipboard.writeText(key)
-    setCopiedKey(key)
-    setTimeout(() => setCopiedKey(null), 2000)
-  }
+    navigator.clipboard.writeText(key);
+    setCopiedKey(key);
+    setTimeout(() => setCopiedKey(null), 2000);
+  };
 
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString("en-US", {
@@ -75,12 +75,12 @@ export default function ApiKeysPage() {
       day: "numeric",
       hour: "2-digit",
       minute: "2-digit",
-    })
-  }
+    });
+  };
 
   const maskSecret = (secret: string) => {
-    return `${secret?.slice(0, 8)}${"*".repeat(24)}${secret?.slice(-8)}`
-  }
+    return `${secret?.slice(0, 8)}${"*".repeat(24)}${secret?.slice(-8)}`;
+  };
 
   return (
     <div className="w-full flex flex-col items-center p-6 gap-6">
@@ -146,5 +146,5 @@ export default function ApiKeysPage() {
         </div>
       )}
     </div>
-  )
+  );
 }
