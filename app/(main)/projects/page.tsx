@@ -1,43 +1,43 @@
-"use client"
+"use client";
 
-import { Plus, Folder, ArrowRight } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { Card, CardHeader, CardTitle, CardContent, CardFooter } from "@/components/ui/card"
-import { Skeleton } from "@/components/ui/skeleton"
-import { useEffect, useState } from "react"
-import { useRouter } from "next/navigation"
+import { Plus, Folder, ArrowRight } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Card, CardHeader, CardTitle, CardContent, CardFooter } from "@/components/ui/card";
+import { Skeleton } from "@/components/ui/skeleton";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
 interface Project {
-  id: string
-  title: string
-  userId: string
-  sourceUrl: string
-  allowedOrigin: string
-  excludePaths: string[]
-  created_at: string
-  updated_at: string
+  id: string;
+  title: string;
+  userId: string;
+  sourceUrl: string;
+  allowedOrigin: string;
+  excludePaths: string[];
+  created_at: string;
+  updated_at: string;
 }
 
 export default function ProjectsPage() {
-  const [projects, setProjects] = useState<Project[] | []>([])
-  const [loading, setLoading] = useState(true)
-  const router = useRouter()
+  const [projects, setProjects] = useState<Project[] | []>([]);
+  const [loading, setLoading] = useState(true);
+  const router = useRouter();
 
   useEffect(() => {
     const fetchProjects = async () => {
       try {
-        const res = await fetch("/api/projects", { method: "GET" })
-        const data = await res.json()
-        if (!data.success) return
-        setProjects(data?.projects)
+        const res = await fetch("/api/projects", { method: "GET" });
+        const data = await res.json();
+        if (!data.success) return;
+        setProjects(data?.projects);
       } catch (error) {
-        console.log(error)
+        console.log(error);
       } finally {
-        setLoading(false)
+        setLoading(false);
       }
-    }
-    fetchProjects()
-  }, [])
+    };
+    fetchProjects();
+  }, []);
 
   return (
     <div className="min-h-screen w-full bg-[var(--background)] text-[var(--foreground)] px-6 py-10">
@@ -50,6 +50,15 @@ export default function ProjectsPage() {
         >
           <Plus className="h-4 w-4" />
           Create New Project
+        </Button>
+        <Button
+          onClick={() => {
+            window.location.href = "https://github.com/apps/askguru-ai/installations/new";
+          }}
+          className="flex items-center gap-2 bg-[var(--primary)] text-[var(--primary-foreground)] hover:opacity-90"
+        >
+          <Plus className="h-4 w-4" />
+          Add Repositories
         </Button>
       </div>
 
@@ -83,7 +92,9 @@ export default function ProjectsPage() {
                 </div>
               </CardHeader>
               <CardContent>
-                <p className="text-sm text-[var(--muted-foreground)]">{project?.created_at.toString()}</p>
+                <p className="text-sm text-[var(--muted-foreground)]">
+                  {project?.created_at.toString()}
+                </p>
               </CardContent>
               <CardFooter>
                 <Button
@@ -104,5 +115,5 @@ export default function ProjectsPage() {
         )}
       </div>
     </div>
-  )
+  );
 }
