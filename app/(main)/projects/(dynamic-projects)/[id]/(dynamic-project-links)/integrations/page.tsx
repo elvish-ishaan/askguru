@@ -164,55 +164,16 @@ export default function IntegrationsPage() {
     <div className="flex min-h-screen flex-col items-center justify-center bg-[var(--background)] text-[var(--foreground)] px-6 py-12">
       {/* Success Message */}
       {showSuccessMessage && (
-        <div className="fixed top-4 right-4 z-50 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded shadow-lg">
-          <div className="flex items-center gap-2">
-            <CheckCircle className="h-5 w-5" />
-            <span>
-              {selectedRepo
-                ? "Repository selected successfully!"
-                : "GitHub successfully connected!"}
-            </span>
-          </div>
+        <div className="fixed top-6 right-6 z-50 flex items-center gap-3 bg-green-600/10 border border-green-400/30 text-green-300 px-4 py-3 rounded-xl shadow-lg backdrop-blur-md transition-all">
+          <CheckCircle className="h-5 w-5 text-green-400" />
+          <span className="text-sm font-medium">
+            {selectedRepo ? "Repository selected successfully!" : "GitHub successfully connected!"}
+          </span>
         </div>
       )}
-      <Card className="max-w-lg w-full border border-[var(--border)] bg-[var(--card)] shadow-lg text-center p-8">
-        <CardContent className="flex flex-col items-center gap-6">
-          {/* Icon */}
-          <div className="flex items-center justify-center w-16 h-16 rounded-full bg-[var(--muted)]">
-            <PlugZap className="h-8 w-8 text-[var(--primary)] animate-pulse" />
-          </div>
-
-          {/* Heading */}
-          <h1 className="text-3xl font-bold tracking-tight">Integrations Coming Soon</h1>
-
-          {/* Subtext */}
-          <p className="text-[var(--muted-foreground)] leading-relaxed">
-            We&apos;re working on bringing seamless integrations with your favorite tools. Stay
-            tuned for powerful new connections that will make your workflow even smoother.
-          </p>
-
-          {/* Status */}
-          <div className="flex items-center gap-2 text-[var(--primary)] font-medium">
-            <Loader2 className="h-5 w-5 animate-spin" />
-            In Progress
-          </div>
-
-          {/* Placeholder badges */}
-          <div className="flex flex-wrap justify-center gap-3 mt-6">
-            {["Slack", "Zapier", "Notion", "Google Drive", "GitHub"].map((name) => (
-              <span
-                key={name}
-                className="px-4 py-2 rounded-full text-sm font-medium bg-[var(--muted)] text-[var(--muted-foreground)]"
-              >
-                {name}
-              </span>
-            ))}
-          </div>
-        </CardContent>
-      </Card>
 
       {/* GitHub Integration Card */}
-      <Card className="max-w-lg w-full border border-[var(--border)] bg-[var(--card)] shadow-lg text-center p-8">
+      <Card className="max-w-lg w-full border border-white/10 bg-white/5 backdrop-blur-sm shadow-xl text-center p-8 rounded-2xl">
         <CardHeader>
           <CardTitle className="flex items-center justify-center gap-2">
             <Github className="h-5 w-5" />
@@ -226,32 +187,34 @@ export default function IntegrationsPage() {
               <span>Checking status...</span>
             </div>
           ) : githubStatus?.isInstalled ? (
-            <div className="flex items-center justify-center gap-2 text-green-600">
+            <div className="flex items-center justify-center gap-2 text-green-400">
               <CheckCircle className="h-4 w-4" />
               <span>GitHub Connected</span>
             </div>
           ) : (
-            <div className="text-[var(--muted-foreground)]">
-              Connect your GitHub account to access repositories
-            </div>
+            <div className="text-gray-400">Connect your GitHub account to access repositories</div>
           )}
 
           {selectedRepo && (
-            <div className="p-3 bg-green-50 border border-green-200 rounded-lg">
-              <div className="flex items-center gap-2 text-green-700 mb-1">
+            <div className="p-4 rounded-xl border border-green-400/30 bg-green-500/10 backdrop-blur-sm text-left transition-all">
+              <div className="flex items-center gap-2 text-green-400 mb-1">
                 <CheckCircle className="h-4 w-4" />
                 <span className="font-medium">Selected Repository</span>
               </div>
-              <div className="text-sm text-green-600">
-                <div className="font-medium">{selectedRepo.name}</div>
+              <div className="text-sm text-green-300">
+                <div className="font-semibold">{selectedRepo.name}</div>
                 {selectedRepo.description && (
-                  <div className="text-xs mt-1 opacity-75">{selectedRepo.description}</div>
+                  <div className="text-xs mt-1 opacity-80">{selectedRepo.description}</div>
                 )}
               </div>
             </div>
           )}
 
-          <Button onClick={handleConnectGitHub} disabled={loading} className="w-full">
+          <Button
+            onClick={handleConnectGitHub}
+            disabled={loading}
+            className="w-full bg-gradient-to-r from-[#6366F1] to-[#8B5CF6] hover:opacity-90 text-white transition-all duration-300 shadow-md"
+          >
             <Github className="h-4 w-4 mr-2" />
             {githubStatus?.isInstalled ? "View Repositories" : "Connect GitHub"}
           </Button>
@@ -260,39 +223,47 @@ export default function IntegrationsPage() {
 
       {/* Repositories Modal */}
       <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
-        <DialogContent className="max-w-2xl max-h-[80vh] overflow-hidden">
+        <DialogContent className="bg-[#1b2233] border border-white/10 text-white rounded-2xl max-w-2xl max-h-[80vh] overflow-hidden shadow-xl">
           <DialogHeader>
-            <DialogTitle>GitHub Repositories</DialogTitle>
+            <DialogTitle className="text-lg font-semibold mb-2">GitHub Repositories</DialogTitle>
           </DialogHeader>
 
           <div className="mt-4">
             {reposLoading ? (
-              <div className="flex items-center justify-center py-8">
-                <Loader2 className="h-6 w-6 animate-spin" />
-                <span className="ml-2">Loading repositories...</span>
+              <div className="flex items-center justify-center py-8 text-gray-300">
+                <Loader2 className="h-5 w-5 animate-spin text-gray-300" />
+                <span className="ml-2 text-sm">Loading repositories...</span>
               </div>
             ) : error ? (
               <div className="text-center py-8">
-                <div className="text-red-600 mb-2">{error}</div>
-                <Button onClick={fetchRepositories} variant="outline" size="sm">
+                <div className="text-red-500 mb-2">{error}</div>
+                <Button
+                  onClick={fetchRepositories}
+                  variant="outline"
+                  size="sm"
+                  className="border-white/10 hover:bg-white/10 text-gray-200"
+                >
                   Try Again
                 </Button>
               </div>
             ) : repositories.length > 0 ? (
               <div className="space-y-3 max-h-[60vh] overflow-y-auto pr-2">
                 {repositories.map((repo) => (
-                  <Card key={repo.id} className="p-4">
+                  <Card
+                    key={repo.id}
+                    className="p-4 bg-[#1f283b] hover:bg-[#232c42] transition-all border border-white/10 rounded-xl"
+                  >
                     <div className="flex items-start justify-between">
                       <div className="flex-1 min-w-0">
                         <h3 className="font-semibold text-sm truncate">{repo.name}</h3>
                         {repo.description && (
-                          <p className="text-xs text-[var(--muted-foreground)] mt-1 line-clamp-2">
+                          <p className="text-xs text-gray-400 mt-1 line-clamp-2">
                             {repo.description}
                           </p>
                         )}
                         <div className="flex items-center gap-2 mt-2">
                           {repo.language && (
-                            <span className="text-xs px-2 py-1 bg-[var(--muted)] rounded">
+                            <span className="text-xs px-2 py-1 bg-white/10 rounded">
                               {repo.language}
                             </span>
                           )}
@@ -309,14 +280,17 @@ export default function IntegrationsPage() {
                           variant={selectedRepo?.id === repo.id ? "default" : "outline"}
                           onClick={() => handleSelectRepository(repo)}
                           disabled={selectingRepo === repo.id}
-                          className="min-w-[80px]"
+                          className={`min-w-[80px] ${
+                            selectedRepo?.id === repo.id
+                              ? "bg-green-600/20 hover:bg-green-600/30 text-green-400 border border-green-400/20"
+                              : "border-white/10 hover:bg-white/10 text-gray-200"
+                          }`}
                         >
                           {selectingRepo === repo.id ? (
-                            <Loader2 className="h-3 w-3 animate-spin" />
+                            <Loader2 className="h-3 w-3 animate-spin text-gray-200" />
                           ) : selectedRepo?.id === repo.id ? (
                             <>
-                              <Check className="h-3 w-3 mr-1" />
-                              Selected
+                              <Check className="h-3 w-3 mr-1" /> Selected
                             </>
                           ) : (
                             "Select"
@@ -326,6 +300,7 @@ export default function IntegrationsPage() {
                           size="sm"
                           variant="outline"
                           onClick={() => window.open(repo.html_url, "_blank")}
+                          className="border-white/10 hover:bg-white/10 text-gray-200"
                         >
                           <ExternalLink className="h-3 w-3" />
                         </Button>
@@ -335,17 +310,15 @@ export default function IntegrationsPage() {
                 ))}
               </div>
             ) : (
-              <div className="text-center py-8 text-[var(--muted-foreground)]">
-                No repositories found
-              </div>
+              <div className="text-center py-8 text-gray-400">No repositories found</div>
             )}
           </div>
         </DialogContent>
       </Dialog>
 
       {/* Footer note */}
-      <p className="mt-6 text-sm text-[var(--muted-foreground)]">
-        Have an integration in mind? Let us know!
+      <p className="mt-8 text-sm text-gray-500 opacity-70 hover:opacity-100 transition">
+        Have an integration in mind? <span className="underline cursor-pointer">Let us know!</span>
       </p>
     </div>
   );
