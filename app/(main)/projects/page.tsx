@@ -6,6 +6,14 @@ import { Card, CardHeader, CardTitle, CardContent, CardFooter } from "@/componen
 import { Skeleton } from "@/components/ui/skeleton";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import {
+  NavigationMenu,
+  NavigationMenuItem,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+  NavigationMenuContent,
+  NavigationMenuLink,
+} from "@/components/ui/navigation-menu";
 
 interface Project {
   id: string;
@@ -44,22 +52,41 @@ export default function ProjectsPage() {
       {/* Header */}
       <div className="mx-auto max-w-6xl flex items-center justify-between">
         <h1 className="text-3xl font-medium text-primary">Projects</h1>
-        <Button
-          onClick={() => router.push("/projects/new")}
-          className="flex items-center gap-2 bg-[var(--primary)] text-[var(--primary-foreground)] hover:opacity-90"
-        >
-          <Plus className="h-4 w-4" />
-          Create New Project
-        </Button>
-        <Button
-          onClick={() => {
-            window.location.href = "https://github.com/apps/askguru-ai/installations/new";
-          }}
-          className="flex items-center gap-2 bg-[var(--primary)] text-[var(--primary-foreground)] hover:opacity-90"
-        >
-          <Plus className="h-4 w-4" />
-          Add Repositories
-        </Button>
+        <NavigationMenu>
+          <NavigationMenuList>
+            <NavigationMenuItem>
+              <NavigationMenuTrigger className="flex items-center gap-2 bg-[var(--primary)] text-[var(--primary-foreground)] hover:opacity-90 px-4 py-2 rounded-md">
+                <Plus className="h-4 w-4" />
+                New
+              </NavigationMenuTrigger>
+              <NavigationMenuContent className="bg-[var(--card)] text-[var(--foreground)] rounded-md shadow-lg border border-white/10 p-2 w-48">
+                <div className="flex flex-col space-y-2">
+                  <NavigationMenuLink asChild>
+                    <Button
+                      variant="ghost"
+                      className="justify-start text-sm hover:bg-white/10"
+                      onClick={() => router.push("/projects/new")}
+                    >
+                      Create New Project
+                    </Button>
+                  </NavigationMenuLink>
+                  <NavigationMenuLink asChild>
+                    <Button
+                      variant="ghost"
+                      className="justify-start text-sm hover:bg-white/10"
+                      onClick={() =>
+                        (window.location.href =
+                          "https://github.com/apps/askguru-ai/installations/new")
+                      }
+                    >
+                      Add Repositories
+                    </Button>
+                  </NavigationMenuLink>
+                </div>
+              </NavigationMenuContent>
+            </NavigationMenuItem>
+          </NavigationMenuList>
+        </NavigationMenu>
       </div>
 
       {/* Projects Grid */}
