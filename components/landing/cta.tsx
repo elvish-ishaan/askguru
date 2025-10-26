@@ -1,31 +1,50 @@
-"use client"
+"use client";
 
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/ui/button";
+import { motion } from "framer-motion";
+import { useRouter } from "next/navigation";
 
 export default function CtaCard() {
+  const router = useRouter();
   return (
-    <section className="w-full flex items-center justify-center py-20 px-6 bg-[var(--background)]">
-      <div className="relative max-w-5xl w-full rounded-[2.5rem] overflow-hidden shadow-2xl border border-[var(--border)]">
-        {/* Gradient Background */}
-        <div className="absolute inset-0 bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 opacity-90" />
+    <section className="relative flex items-center justify-center py-24 px-6 bg-black overflow-hidden">
+      {/* Gradient background */}
+      <div
+        className="absolute inset-0 z-0"
+        style={{
+          background: "radial-gradient(125% 125% at 50% 100%, #000000 40%, #010133 100%)",
+        }}
+      />
 
-        {/* Content */}
-        <div className="relative flex flex-col items-center justify-center text-center py-20 px-8">
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white max-w-2xl leading-snug">
-            Power your app with the <span className="text-[var(--primary-foreground)]">AskGuru AI</span>
-          </h2>
-          <p className="mt-4 text-lg md:text-xl text-gray-200 max-w-xl">
-            Trusted by modern teams to deliver instant, reliable AI-driven support & insights.
-          </p>
+      {/* Content */}
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+        viewport={{ once: true }}
+        className="relative z-10 text-center max-w-4xl mx-auto"
+      >
+        <h2 className="text-4xl md:text-5xl font-bold text-white leading-snug">
+          Supercharge Your Website with <br />
+          <span className="bg-gradient-to-r from-purple-400 to-pink-500 bg-clip-text text-transparent">
+            AI Chat & Doc Generation
+          </span>
+        </h2>
 
-          <Button
-            size="lg"
-            className="mt-8 px-6 py-3 text-base rounded-md bg-background text-white hover:opacity-90"
-          >
-            Get Started →
-          </Button>
-        </div>
-      </div>
+        <p className="mt-4 text-lg text-gray-400 max-w-2xl mx-auto">
+          Engage users instantly with intelligent conversations and generate professional documents
+          directly from your workflow—all in one platform with{" "}
+          <span className="text-white font-medium">AskGuru</span>.
+        </p>
+
+        <Button
+          size="lg"
+          onClick={() => router.push("/auth")}
+          className="mt-8 px-8 py-3 text-base cursor-pointer font-medium rounded-full bg-white text-black hover:scale-105 hover:bg-gray-100 transition-all duration-300 shadow-lg"
+        >
+          Get Started →
+        </Button>
+      </motion.div>
     </section>
-  )
+  );
 }

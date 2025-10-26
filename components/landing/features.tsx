@@ -1,78 +1,60 @@
-"use client"
+"use client";
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Bot, KeyRound, BarChart3, Shield, Settings, Plug } from "lucide-react"
-
-const features = [
-  {
-    title: "Conversational AI",
-    description: "Turn your website into a conversational experience powered by AskGuru’s AI assistant.",
-    icon: Bot,
-  },
-  {
-    title: "API Key Management",
-    description: "Securely generate and manage API keys for your projects with ease.",
-    icon: KeyRound,
-  },
-  {
-    title: "Analytics & Usage",
-    description: "Track usage, monitor requests, and gain insights into your AI-powered interactions.",
-    icon: BarChart3,
-  },
-  {
-    title: "Enterprise Security",
-    description: "Built-in authentication, secure data handling, and strict privacy by design.",
-    icon: Shield,
-  },
-  {
-    title: "Flexible Settings",
-    description: "Customize behavior, fine-tune responses, and adapt AskGuru to your needs.",
-    icon: Settings,
-  },
-  {
-    title: "Seamless Integrations",
-    description: "Easily integrate with existing platforms, tools, and workflows.",
-    icon: Plug,
-  },
-]
+import { motion } from "framer-motion";
+import MagicBento from "../MagicBento";
 
 export default function Features() {
   return (
-    <section className=" relative w-full py-20 bg-background text-foreground">
-         {/* <LightRays color="rgba(23, 106, 186, 0.79)" count={4} speed={5} /> */}
-      <div className="mx-auto max-w-7xl px-6 lg:px-8">
-        {/* Section Header */}
-        <div className="text-center mb-16">
-          <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
-            Why Choose <span className=" text-primary text-5xl">AskGuru</span>?
-          </h2>
-          <p className="mt-4 text-muted-foreground max-w-2xl mx-auto">
-            Discover the powerful features that make AskGuru the best solution for creating conversational websites.
-          </p>
-        </div>
+    <section className="relative w-full py-20 bg-black text-foreground overflow-hidden px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-7xl">
+        <div className="flex flex-col md:flex-row justify-between items-center gap-12 md:gap-16">
+          {/* ---------- LEFT: Text Section ---------- */}
+          <motion.div
+            className="text-center md:text-left space-y-6 md:max-w-md lg:max-w-lg"
+            initial={{ opacity: 0, x: -50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true, amount: 0.3 }}
+          >
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight leading-tight">
+              Why Choose{" "}
+              <span className="bg-gradient-to-r from-[#7F5AF0] to-[#FF6E6C] bg-clip-text text-transparent">
+                AskGuru
+              </span>
+              ?
+            </h2>
+            <p className="text-base sm:text-lg md:text-lg text-[#D1D9E6]">
+              Discover the next level of AI websites. AskGuru combines smart chat, AI-powered
+              document generation, and seamless integrations to create a truly intelligent user
+              experience.
+            </p>
+          </motion.div>
 
-        {/* Features Grid */}
-        <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-          {features.map((feature, index) => (
-            <Card
-              key={index}
-              className="group hover:shadow-xl transition-shadow duration-300 border border-[var(--border)] bg-card"
-            >
-              <CardHeader>
-                <feature.icon className="w-10 h-10 text-[var(--primary)] mb-4" />
-                <CardTitle className="text-lg font-semibold">
-                  {feature.title}
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-sm text-muted-foreground">
-                  {feature.description}
-                </p>
-              </CardContent>
-            </Card>
-          ))}
+          {/* ---------- RIGHT: MagicBento Section ---------- */}
+          <motion.div
+            className="flex justify-center w-full max-w-[400px] md:max-w-none"
+            initial={{ opacity: 0, x: 50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            viewport={{ once: true, amount: 0.3 }}
+          >
+            <div className="relative flex items-center justify-center w-full">
+              <MagicBento
+                textAutoHide={true}
+                enableStars={true}
+                enableSpotlight={true}
+                enableBorderGlow={true}
+                enableTilt={true}
+                enableMagnetism={true}
+                clickEffect={true}
+                spotlightRadius={200}
+                particleCount={8}
+                glowColor="132, 0, 255"
+              />
+            </div>
+          </motion.div>
         </div>
       </div>
     </section>
-  )
+  );
 }

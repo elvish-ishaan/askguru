@@ -1,34 +1,30 @@
-"use client"
+"use client";
 
-import Link from "next/link"
-import { useState } from "react"
-import { Menu } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import {
-  Sheet,
-  SheetContent,
-  SheetTrigger,
-} from "@/components/ui/sheet"
-import { useRouter } from "next/navigation"
-import Image from "next/image"
+import Link from "next/link";
+import { useState } from "react";
+import { Menu } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 export default function Navbar() {
-  const [open, setOpen] = useState(false)
-  const router = useRouter()
+  const [open, setOpen] = useState(false);
+  const router = useRouter();
 
   const navLinks = [
     { href: "/", label: "Home" },
     { href: "#features", label: "Features" },
     { href: "/pricing", label: "Pricing" },
     { href: "/docs", label: "Docs" },
-  ]
+  ];
 
   return (
-    <header className="w-full bg-background text-foreground">
+    <header className=" fixed top-0 left-0 w-full z-50  bg-[#1a1a1a]/40 backdrop-blur-lg border-b border-white/10 text-white ">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         {/* Logo */}
-        <Link href="/" className=" w-auto">
-          <Image src='/askguruLogo.png' alt="askguru_logo" width={120} height={120}/>
+        <Link href="/" className="">
+          <Image src="/askguruLogo.png" alt="askguru_logo" width={120} height={120} />
         </Link>
 
         {/* Desktop Nav */}
@@ -57,28 +53,40 @@ export default function Navbar() {
                 <Menu className="h-6 w-6" />
               </Button>
             </SheetTrigger>
-            <SheetContent side="right" className="bg-[var(--background)]">
-              <nav className="mt-8 flex flex-col gap-4">
+
+            <SheetContent
+              side="right"
+              className="bg-[#1a1a1a]/40 backdrop-blur-lg border-b border-white/10 text-white w-64 p-6 flex flex-col "
+            >
+              <nav className="flex flex-col gap-6 mt-4">
                 {navLinks.map((link) => (
                   <Link
                     key={link.href}
                     href={link.href}
-                    className="text-base font-medium transition-colors hover:text-[var(--primary)]"
+                    className="text-lg font-semibold text-center transition-colors hover:text-[var(--primary)]"
                     onClick={() => setOpen(false)}
                   >
                     {link.label}
                   </Link>
                 ))}
-                <div className="mt-6 flex flex-col gap-3">
-                  <Button variant="ghost" onClick={ () => router.push("/auth")} className="w-full">
-                    Get started
-                  </Button>
-                </div>
               </nav>
+
+              <div className="">
+                <Button
+                  variant="default"
+                  className="w-full bg-[var(--primary)] text-black font-semibold py-3 rounded-lg hover:brightness-105 transition-all"
+                  onClick={() => {
+                    router.push("/auth");
+                    setOpen(false);
+                  }}
+                >
+                  Get started
+                </Button>
+              </div>
             </SheetContent>
           </Sheet>
         </div>
       </div>
     </header>
-  )
+  );
 }
