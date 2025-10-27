@@ -1,7 +1,7 @@
-"use client"
+"use client";
 
-import { motion } from "framer-motion"
-import { Cloud, Globe, Layers, Rocket, Star, Sun, Box } from "lucide-react"
+import { motion } from "framer-motion";
+import { Cloud, Globe, Layers, Rocket, Star, Sun, Box } from "lucide-react";
 
 const partners = [
   { name: "Nova", icon: Rocket },
@@ -12,42 +12,55 @@ const partners = [
   { name: "Atlas", icon: Globe },
   { name: "Stellar", icon: Star },
   { name: "Lumen", icon: Sun },
-]
+  { name: "Nova", icon: Rocket },
+  { name: "Orbit", icon: Globe },
+  { name: "Nimbus", icon: Cloud },
+  { name: "Vertex", icon: Layers },
+  { name: "Prism", icon: Box },
+  { name: "Atlas", icon: Globe },
+  { name: "Stellar", icon: Star },
+  { name: "Lumen", icon: Sun },
+];
 
 export default function PartnersScroller() {
   return (
-    <div className=" py-4">
-      <h1 className=" text-4xl font-bold text-center">Companies who trust</h1>
-      <div className="relative w-full bg-[var(--background)] py-16 overflow-hidden">
-      {/* Gradient fade left */}
-      <div className="pointer-events-none absolute left-0 top-0 h-full w-20 bg-gradient-to-r from-[var(--background)] to-transparent z-10" />
-      {/* Gradient fade right */}
-      <div className="pointer-events-none absolute right-0 top-0 h-full w-20 bg-gradient-to-l from-[var(--background)] to-transparent z-10" />
+    <section className="py-20 bg-black text-white overflow-hidden">
+      <h1 className="text-4xl font-bold text-center mb-12 cursor-pointer">
+        Trusted by{" "}
+        <span className="bg-gradient-to-r from-purple-400 to-pink-500 bg-clip-text text-transparent">
+          Top Companies
+        </span>
+      </h1>
 
-      {/* Scrolling container */}
-      <motion.div
-        className="flex gap-32 whitespace-nowrap"
-        animate={{ x: ["0%", "-50%"] }}
-        transition={{
-          repeat: Infinity,
-          duration: 20,
-          ease: "linear",
-        }}
-      >
-        {[...partners, ...partners].map((partner, idx) => {
-          const Icon = partner.icon
-          return (
-            <div
-              key={idx}
-              className="flex flex-col items-center justify-center gap-2 text-[var(--muted-foreground)]"
-            >
-              <Icon className="h-10 w-10 text-[var(--foreground)]" />
-              <span className="text-sm font-medium">{partner.name}</span>
-            </div>
-          )
-        })}
-      </motion.div>
-    </div>
-    </div>
-  )
+      <div className="relative w-full overflow-hidden cursor-pointer">
+        {/* Left & Right Gradient Fade */}
+        <div className="pointer-events-none absolute left-0 top-0 h-full w-32 bg-gradient-to-r from-black to-transparent z-10" />
+        <div className="pointer-events-none absolute right-0 top-0 h-full w-32 bg-gradient-to-l from-black to-transparent z-10" />
+
+        {/* Scrolling Track */}
+        <motion.div
+          className="flex md:gap-24 gap-18 whitespace-nowrap cursor-pointer"
+          animate={{ x: ["0%", "-100%"] }}
+          transition={{
+            duration: 40,
+            ease: "linear",
+            repeat: Infinity,
+          }}
+        >
+          {[...partners, ...partners].map((partner, idx) => {
+            const Icon = partner.icon;
+            return (
+              <div
+                key={idx}
+                className="flex flex-col items-center justify-center gap-2 min-w-[120px]"
+              >
+                <Icon className="h-10 w-10 text-purple-400 cursor-pointer" />
+                <span className="text-sm font-medium cursor-pointer">{partner.name}</span>
+              </div>
+            );
+          })}
+        </motion.div>
+      </div>
+    </section>
+  );
 }

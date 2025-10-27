@@ -1,11 +1,11 @@
-"use client"
+"use client";
 
-import Link from "next/link"
-import { Github, Twitter, Linkedin, Mail } from "lucide-react"
+import Link from "next/link";
+import { Github, Twitter, Linkedin, Mail } from "lucide-react";
 
 export default function Footer() {
   return (
-    <footer className="w-full border-t border-[var(--border)] bg-[var(--background)] text-[var(--muted-foreground)]">
+    <footer className="w-full border-t border-[var(--border)] bg-black text-[var(--muted-foreground)]">
       <div className="mx-auto max-w-7xl px-6 py-10 md:py-14">
         <div className="grid grid-cols-1 gap-10 md:grid-cols-4">
           {/* Brand */}
@@ -74,13 +74,25 @@ export default function Footer() {
           <div>
             <h3 className="text-sm font-semibold text-[var(--foreground)]">Connect</h3>
             <div className="mt-4 flex gap-4">
-              <Link href="https://github.com" target="_blank" className="hover:text-[var(--primary)]">
+              <Link
+                href="https://github.com"
+                target="_blank"
+                className="hover:text-[var(--primary)]"
+              >
                 <Github className="h-5 w-5" />
               </Link>
-              <Link href="https://twitter.com" target="_blank" className="hover:text-[var(--primary)]">
+              <Link
+                href="https://twitter.com"
+                target="_blank"
+                className="hover:text-[var(--primary)]"
+              >
                 <Twitter className="h-5 w-5" />
               </Link>
-              <Link href="https://linkedin.com" target="_blank" className="hover:text-[var(--primary)]">
+              <Link
+                href="https://linkedin.com"
+                target="_blank"
+                className="hover:text-[var(--primary)]"
+              >
                 <Linkedin className="h-5 w-5" />
               </Link>
               <Link href="mailto:hello@askguru.com" className="hover:text-[var(--primary)]">
@@ -104,5 +116,5 @@ export default function Footer() {
         </div>
       </div>
     </footer>
-  )
+  );
 }
