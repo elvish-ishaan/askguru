@@ -1,77 +1,112 @@
-"use client"
+"use client";
 
-import { Card, CardContent, CardHeader } from "@/components/ui/card"
-import { Avatar, AvatarFallback } from "@/components/ui/avatar"
-import { Quote } from "lucide-react"
+import { Card, CardContent } from "@/components/ui/card";
+import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
+import { motion } from "framer-motion";
+import { Star } from "lucide-react";
 
 const testimonials = [
   {
-    name: "Sarah Williams",
-    role: "Product Manager, Nova",
+    name: "Priya Menon",
+    role: "Manager, Next Solutions",
     quote:
-      "Askguru transformed how our team accesses knowledge. The integration was seamless, and the results have been phenomenal.",
+      "AskGuru has completely transformed how we handle support queries and document workflows. Our response times and report generation have improved drastically.",
+    img: "https://randomuser.me/api/portraits/women/45.jpg",
   },
   {
-    name: "James Miller",
-    role: "CTO, Orbit",
+    name: "David Chen",
+    role: "Founder, BrightPath Systems",
     quote:
-      "The developer experience with Askguru is outstanding. Clean APIs, great documentation, and reliable performance.",
+      "The automation, conversational intelligence, and AI-powered document generation have saved us countless hours. Truly next-gen tech.",
+    img: "https://randomuser.me/api/portraits/men/32.jpg",
   },
   {
-    name: "Emily Davis",
-    role: "Founder, Prism",
+    name: "Sarah Thompson",
+    role: "Head of Marketing, FlowBridge",
     quote:
-      "We scaled faster than ever thanks to Askguru’s automation and AI-driven insights. It’s a real game-changer.",
+      "AskGuru gave our customers a personalized support experience and allowed us to generate professional documents instantly. Highly recommend it!",
+    img: "https://randomuser.me/api/portraits/women/68.jpg",
   },
-]
+  {
+    name: "Rohit Verma",
+    role: "Product Manager, InnoSphere",
+    quote:
+      "Smooth setup and incredible efficiency. Our workflow feels faster and more cohesive with both chat and document automation.",
+    img: "https://randomuser.me/api/portraits/men/12.jpg",
+  },
+  {
+    name: "Elena Rodriguez",
+    role: "CTO, Visionary Softworks",
+    quote:
+      "AskGuru has become an integral part of our operations — AI chat and automated document insights alone are priceless.",
+    img: "https://randomuser.me/api/portraits/women/23.jpg",
+  },
+  {
+    name: "Diego Morales",
+    role: "Manager, Bright Solutions",
+    quote:
+      "The AI insights and document generation helped our business scale faster with smarter customer interactions.",
+    img: "https://randomuser.me/api/portraits/men/51.jpg",
+  },
+];
 
 export default function Testimonials() {
   return (
-    <section className="relative w-full bg-[var(--background)] py-20">
-      <div className="mx-auto max-w-5xl text-center mb-12">
-        <h2 className="text-3xl font-bold tracking-tight text-[var(--foreground)]">
-          What Our Customers Say
+    <section className="relative w-full bg-black py-24 text-white">
+      {/* Header */}
+      <div className="text-center mb-16 px-6">
+        <motion.span
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="inline-flex items-center justify-center text-sm tracking-widest text-gray-400 font-medium bg-[#151515]/70 backdrop-blur-md px-4 py-1.5 rounded-full border border-[#2A2A2A]"
+        >
+          <Star className="w-4 h-4 mr-2 text-purple-400" />
+          Testimonials
+        </motion.span>
+        <h2 className="mt-6 text-4xl sm:text-5xl font-bold leading-tight">
+          Building Trust{" "}
+          <span className="bg-gradient-to-r from-purple-400 to-pink-500 bg-clip-text text-transparent">
+            Through Experience
+          </span>
         </h2>
-        <p className="mt-2 text-lg text-[var(--muted-foreground)]">
-          Hear directly from teams who are using Askguru to power their projects.
+        <p className="mt-4 text-lg text-[#A1A1AA] max-w-2xl mx-auto">
+          Hear what real users say about how AskGuru transformed their workflow.
         </p>
       </div>
 
-      <div className="mx-auto max-w-6xl grid gap-8 sm:grid-cols-2 lg:grid-cols-3 px-6">
-        {testimonials.map((t, idx) => (
-          <Card
-            key={idx}
-            className="bg-[var(--card)] border border-[var(--border)] shadow-sm hover:shadow-md transition"
+      {/* Testimonials Grid */}
+      <div className="mx-auto max-w-6xl px-6 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+        {testimonials.map((t, i) => (
+          <motion.div
+            key={i}
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ delay: i * 0.1, duration: 0.6 }}
           >
-            <CardHeader className="flex flex-row items-start gap-2">
-              <Quote className="h-6 w-6 text-[var(--primary)]" />
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <p className="text-[var(--foreground)] text-base leading-relaxed">
-                “{t.quote}”
-              </p>
-              <div className="flex items-center gap-3 mt-4">
-                <Avatar>
-                  <AvatarFallback>
-                    {t.name
-                      .split(" ")
-                      .map((n) => n[0])
-                      .join("")}
-                  </AvatarFallback>
-                </Avatar>
-                <div className="text-left">
-                  <p className="text-sm font-semibold text-[var(--foreground)]">
-                    {t.name}
-                  </p>
-                  <p className="text-xs text-[var(--muted-foreground)]">
-                    {t.role}
-                  </p>
+            <Card className="bg-[#111111] border border-[#1F1F1F] rounded-2xl shadow-md hover:shadow-lg transition-all duration-300 h-full cursor-pointer">
+              <CardContent className="p-6 flex flex-col justify-between h-full">
+                <p className="text-[#E4E4E7] text-base leading-relaxed mb-6">“{t.quote}”</p>
+                <div className="flex items-center gap-3 mt-auto">
+                  <Avatar className="h-10 w-10">
+                    <AvatarImage src={t.img} />
+                    <AvatarFallback>
+                      {t.name
+                        .split(" ")
+                        .map((n) => n[0])
+                        .join("")}
+                    </AvatarFallback>
+                  </Avatar>
+                  <div className="text-left">
+                    <p className="font-semibold text-[#E4E4E7] text-sm">{t.name}</p>
+                    <p className="text-xs text-[#9CA3AF]">{t.role}</p>
+                  </div>
                 </div>
-              </div>
-            </CardContent>
-          </Card>
+              </CardContent>
+            </Card>
+          </motion.div>
         ))}
       </div>
     </section>
-  )
+  );
 }
