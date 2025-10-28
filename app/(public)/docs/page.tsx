@@ -1,53 +1,53 @@
-"use client"
+"use client";
 
-import { useState, useEffect } from "react"
-import { ChevronDown, ChevronRight, Copy, Check, Github, Book, Zap } from "lucide-react"
-import { ScrollArea } from "@/components/ui/scroll-area"
+import { useState, useEffect } from "react";
+import { ChevronDown, ChevronRight, Copy, Check, Github, Book, Zap } from "lucide-react";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 export default function DocsPage() {
-  const [open, setOpen] = useState<boolean>(true)
-  const [activeSection, setActiveSection] = useState<string>("installation")
-  const [copiedIndex, setCopiedIndex] = useState<number | null>(null)
+  const [open, setOpen] = useState<boolean>(true);
+  const [activeSection, setActiveSection] = useState<string>("installation");
+  const [copiedIndex, setCopiedIndex] = useState<number | null>(null);
 
   const sections = [
     { id: "installation", label: "Installation" },
     { id: "usage", label: "Usage" },
-    { id: "configuration", label: "Configuration" }
-  ]
+    { id: "configuration", label: "Configuration" },
+  ];
 
   const scrollToSection = (id: string) => {
-    const element = document.getElementById(id)
+    const element = document.getElementById(id);
     if (element) {
-      element.scrollIntoView({ behavior: "smooth", block: "start" })
-      setActiveSection(id)
+      element.scrollIntoView({ behavior: "smooth", block: "start" });
+      setActiveSection(id);
     }
-  }
+  };
 
   const copyToClipboard = (text: string, index: number) => {
-    navigator.clipboard.writeText(text)
-    setCopiedIndex(index)
-    setTimeout(() => setCopiedIndex(null), 2000)
-  }
+    navigator.clipboard.writeText(text);
+    setCopiedIndex(index);
+    setTimeout(() => setCopiedIndex(null), 2000);
+  };
 
   useEffect(() => {
     const handleScroll = () => {
-      const scrollPosition = window.scrollY + 100
+      const scrollPosition = window.scrollY + 100;
 
       for (const section of sections) {
-        const element = document.getElementById(section.id)
+        const element = document.getElementById(section.id);
         if (element) {
-          const { offsetTop, offsetHeight } = element
+          const { offsetTop, offsetHeight } = element;
           if (scrollPosition >= offsetTop && scrollPosition < offsetTop + offsetHeight) {
-            setActiveSection(section.id)
-            break
+            setActiveSection(section.id);
+            break;
           }
         }
       }
-    }
+    };
 
-    window.addEventListener("scroll", handleScroll)
-    return () => window.removeEventListener("scroll", handleScroll)
-  }, [])
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   const codeBlocks = [
     "npm install askguru",
@@ -62,27 +62,27 @@ export default function DocsPage() {
     logoImage: 'https://example.com/logo.png',
     apiEndpoint: 'https://www.askguru.ai/api/chat'
   }}
-/>`
-  ]
+/>`,
+  ];
 
   return (
-    <div className="flex min-h-screen w-full bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-950 dark:to-slate-900">
+    <div className="flex min-h-screen w-full bg-gradient-to-br from-slate-50 via-slate-100 to-slate-200 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 mt-15">
       {/* Sidebar */}
-      <aside className="sticky top-0 h-screen w-72 border-r border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl">
-        <div className="p-6 border-b border-slate-200 dark:border-slate-800">
+      <aside className="sticky top-0 h-screen w-72 border-r border-slate-200/60 dark:border-slate-800/60 bg-white/60 dark:bg-slate-900/60 backdrop-blur-2xl shadow-xl">
+        <div className="p-6 border-b border-slate-200/60 dark:border-slate-800/60">
           <div className="flex items-center gap-3 mb-2">
             {/* <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center">
               <Zap className="h-5 w-5 text-white" />
             </div> */}
             <div>
-              <h2 className="text-xl font-bold text-primary bg-clip-text ">
+              <h2 className="text-xl font-bold bg-gradient-to-r from-blue-600 to-purple-500 bg-clip-text text-transparent ">
                 AskGuru
               </h2>
-              <p className="text-xs text-slate-500">Documentation</p>
+              <p className="text-xs text-slate-500 dark:text-slate-400">Documentation</p>
             </div>
           </div>
         </div>
-        
+
         <ScrollArea className="h-[calc(100vh-120px)]">
           <nav className="p-4 space-y-2">
             <div>
@@ -90,7 +90,11 @@ export default function DocsPage() {
                 onClick={() => setOpen(!open)}
                 className="flex items-center w-full text-left font-semibold text-sm px-3 py-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-all duration-200"
               >
-                {open ? <ChevronDown className="h-4 w-4 mr-2" /> : <ChevronRight className="h-4 w-4 mr-2" />}
+                {open ? (
+                  <ChevronDown className="h-4 w-4 mr-2" />
+                ) : (
+                  <ChevronRight className="h-4 w-4 mr-2" />
+                )}
                 <Book className="h-4 w-4 mr-2" />
                 Getting Started
               </button>
@@ -135,7 +139,7 @@ export default function DocsPage() {
                 </ul>
               )}
             </div>
-            
+
             <div className="pt-4 border-t border-slate-200 dark:border-slate-800">
               <p className="font-semibold text-sm px-3 py-2 flex items-center">
                 <Github className="h-4 w-4 mr-2" />
@@ -163,26 +167,29 @@ export default function DocsPage() {
         <div className="max-w-4xl mx-auto px-8 py-12">
           {/* Hero Section */}
           <div className="mb-16">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-950 text-blue-600 dark:text-blue-400 text-sm font-medium mb-6">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gradient-to-r from-blue-100 to-purple-100 dark:from-blue-950/60 dark:to-purple-950/60 text-blue-700 dark:text-blue-300 text-sm font-medium mb-6 shadow-sm">
               <Zap className="h-3 w-3" />
               v1.0.0
             </div>
-            <h1 className="text-5xl font-bold mb-4 bg-gradient-to-r from-slate-900 to-slate-600 dark:from-slate-100 dark:to-slate-400 bg-clip-text text-transparent">
+            <h1 className="text-5xl font-bold mb-4 bg-gradient-to-r from-blue-600 via-purple-500 to-pink-500 bg-clip-text text-transparent">
               AskGuru
             </h1>
             <p className="text-xl text-slate-600 dark:text-slate-400 leading-relaxed">
-              A powerful React component for embedding an AI-powered chat widget into your web application. 
-              Provides a beautiful, customizable interface for conversational interactions.
+              A powerful React component for embedding an AI-powered chat widget into your web
+              application. Provides a beautiful, customizable interface for conversational
+              interactions.
             </p>
           </div>
 
           {/* Installation */}
           <section id="installation" className="mb-16 scroll-mt-8">
-            <h2 className="text-3xl font-bold mb-6 text-slate-900 dark:text-slate-100">Installation</h2>
+            <h2 className="text-3xl font-bold mb-6 text-slate-900 dark:text-slate-100">
+              Installation
+            </h2>
             <p className="text-slate-600 dark:text-slate-400 mb-6">
               Get started by installing AskGuru via your preferred package manager:
             </p>
-            
+
             <div className="space-y-4">
               <div className="relative group">
                 <pre className="bg-slate-900 dark:bg-slate-950 text-slate-100 p-5 rounded-xl border border-slate-800 shadow-lg overflow-x-auto">
@@ -199,7 +206,7 @@ export default function DocsPage() {
                   )}
                 </button>
               </div>
-              
+
               <div className="relative group">
                 <pre className="bg-slate-900 dark:bg-slate-950 text-slate-100 p-5 rounded-xl border border-slate-800 shadow-lg overflow-x-auto">
                   <code className="text-sm font-mono">yarn add askguru</code>
@@ -221,7 +228,7 @@ export default function DocsPage() {
           {/* Usage */}
           <section id="usage" className="mb-16 scroll-mt-8">
             <h2 className="text-3xl font-bold mb-6 text-slate-900 dark:text-slate-100">Usage</h2>
-            
+
             <div className="space-y-6">
               <div>
                 <p className="text-slate-600 dark:text-slate-400 mb-4">
@@ -269,24 +276,38 @@ export default function DocsPage() {
 
           {/* Configuration */}
           <section id="configuration" className="mb-16 scroll-mt-8">
-            <h2 className="text-3xl font-bold mb-6 text-slate-900 dark:text-slate-100">Configuration</h2>
+            <h2 className="text-3xl font-bold mb-6 text-slate-900 dark:text-slate-100">
+              Configuration
+            </h2>
             <p className="text-slate-600 dark:text-slate-400 mb-6">
-              The <code className="px-2 py-1 bg-slate-200 dark:bg-slate-800 rounded text-sm">config</code> prop accepts the following options:
+              The{" "}
+              <code className="px-2 py-1 bg-slate-200 dark:bg-slate-800 rounded text-sm">
+                config
+              </code>{" "}
+              prop accepts the following options:
             </p>
-            
+
             <div className="overflow-hidden rounded-xl border border-slate-200 dark:border-slate-800 shadow-lg">
               <table className="w-full">
                 <thead>
                   <tr className="bg-slate-100 dark:bg-slate-900">
-                    <th className="text-left p-4 font-semibold text-slate-900 dark:text-slate-100">Option</th>
-                    <th className="text-left p-4 font-semibold text-slate-900 dark:text-slate-100">Type</th>
-                    <th className="text-left p-4 font-semibold text-slate-900 dark:text-slate-100">Description</th>
+                    <th className="text-left p-4 font-semibold text-slate-900 dark:text-slate-100">
+                      Option
+                    </th>
+                    <th className="text-left p-4 font-semibold text-slate-900 dark:text-slate-100">
+                      Type
+                    </th>
+                    <th className="text-left p-4 font-semibold text-slate-900 dark:text-slate-100">
+                      Description
+                    </th>
                   </tr>
                 </thead>
                 <tbody className="bg-white dark:bg-slate-950">
                   <tr className="border-t border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-900/50 transition-colors">
                     <td className="p-4">
-                      <code className="text-sm font-mono text-blue-600 dark:text-blue-400">apiKey</code>
+                      <code className="text-sm font-mono text-blue-600 dark:text-blue-400">
+                        apiKey
+                      </code>
                     </td>
                     <td className="p-4 text-slate-600 dark:text-slate-400">string</td>
                     <td className="p-4 text-slate-600 dark:text-slate-400">
@@ -298,38 +319,58 @@ export default function DocsPage() {
                   </tr>
                   <tr className="border-t border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-900/50 transition-colors">
                     <td className="p-4">
-                      <code className="text-sm font-mono text-blue-600 dark:text-blue-400">welcomeMessage</code>
+                      <code className="text-sm font-mono text-blue-600 dark:text-blue-400">
+                        welcomeMessage
+                      </code>
                     </td>
                     <td className="p-4 text-slate-600 dark:text-slate-400">string</td>
-                    <td className="p-4 text-slate-600 dark:text-slate-400">Initial message shown to the user.</td>
+                    <td className="p-4 text-slate-600 dark:text-slate-400">
+                      Initial message shown to the user.
+                    </td>
                   </tr>
                   <tr className="border-t border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-900/50 transition-colors">
                     <td className="p-4">
-                      <code className="text-sm font-mono text-blue-600 dark:text-blue-400">botName</code>
+                      <code className="text-sm font-mono text-blue-600 dark:text-blue-400">
+                        botName
+                      </code>
                     </td>
                     <td className="p-4 text-slate-600 dark:text-slate-400">string</td>
-                    <td className="p-4 text-slate-600 dark:text-slate-400">Name displayed for the bot.</td>
+                    <td className="p-4 text-slate-600 dark:text-slate-400">
+                      Name displayed for the bot.
+                    </td>
                   </tr>
                   <tr className="border-t border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-900/50 transition-colors">
                     <td className="p-4">
-                      <code className="text-sm font-mono text-blue-600 dark:text-blue-400">theme</code>
+                      <code className="text-sm font-mono text-blue-600 dark:text-blue-400">
+                        theme
+                      </code>
                     </td>
                     <td className="p-4 text-slate-600 dark:text-slate-400">string</td>
-                    <td className="p-4 text-slate-600 dark:text-slate-400">Customize primary/secondary colors.</td>
+                    <td className="p-4 text-slate-600 dark:text-slate-400">
+                      Customize primary/secondary colors.
+                    </td>
                   </tr>
                   <tr className="border-t border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-900/50 transition-colors">
                     <td className="p-4">
-                      <code className="text-sm font-mono text-blue-600 dark:text-blue-400">logoImage</code>
+                      <code className="text-sm font-mono text-blue-600 dark:text-blue-400">
+                        logoImage
+                      </code>
                     </td>
                     <td className="p-4 text-slate-600 dark:text-slate-400">string</td>
-                    <td className="p-4 text-slate-600 dark:text-slate-400">Customize the icon image.</td>
+                    <td className="p-4 text-slate-600 dark:text-slate-400">
+                      Customize the icon image.
+                    </td>
                   </tr>
                   <tr className="border-t border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-900/50 transition-colors">
                     <td className="p-4">
-                      <code className="text-sm font-mono text-blue-600 dark:text-blue-400">apiEndpoint</code>
+                      <code className="text-sm font-mono text-blue-600 dark:text-blue-400">
+                        apiEndpoint
+                      </code>
                     </td>
                     <td className="p-4 text-slate-600 dark:text-slate-400">string</td>
-                    <td className="p-4 text-slate-600 dark:text-slate-400">API endpoint for chat.</td>
+                    <td className="p-4 text-slate-600 dark:text-slate-400">
+                      API endpoint for chat.
+                    </td>
                   </tr>
                 </tbody>
               </table>
@@ -339,8 +380,10 @@ export default function DocsPage() {
       </main>
 
       {/* Right Side Index */}
-      <aside className="hidden xl:block sticky top-0 h-screen w-64 border-l border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl p-6">
-        <h3 className="text-sm font-semibold mb-4 text-slate-900 dark:text-slate-100">On this page</h3>
+      <aside className="hidden xl:block sticky top-0 h-screen w-64 border-l border-slate-200/60 dark:border-slate-800/60 bg-white/60 dark:bg-slate-900/60 backdrop-blur-2xl p-6 shadow-xl">
+        <h3 className="text-sm font-semibold mb-4 text-slate-700 dark:text-slate-300 tracking-wide uppercase">
+          On this page
+        </h3>
         <ul className="space-y-2">
           {sections.map((section) => (
             <li key={section.id}>
@@ -359,5 +402,5 @@ export default function DocsPage() {
         </ul>
       </aside>
     </div>
-  )
+  );
 }

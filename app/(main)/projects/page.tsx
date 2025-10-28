@@ -64,7 +64,7 @@ export default function ProjectsPage() {
                   <NavigationMenuLink asChild>
                     <Button
                       variant="ghost"
-                      className="justify-start text-sm hover:bg-white/10"
+                      className="justify-start text-sm transition-colors hover:bg-black/5 dark:hover:bg-white/10"
                       onClick={() => router.push("/projects/new")}
                     >
                       Create New Project
@@ -73,7 +73,7 @@ export default function ProjectsPage() {
                   <NavigationMenuLink asChild>
                     <Button
                       variant="ghost"
-                      className="justify-start text-sm hover:bg-white/10"
+                      className="justify-start text-sm transition-colors hover:bg-black/5 dark:hover:bg-white/10"
                       onClick={() =>
                         (window.location.href =
                           "https://github.com/apps/askguru-ai/installations/new")
@@ -111,7 +111,10 @@ export default function ProjectsPage() {
           ))
         ) : projects.length > 0 ? (
           projects.map((project) => (
-            <Card key={project.id} className="bg-[var(--card)] border shadow-md">
+            <Card
+              key={project.id}
+              className="bg-[var(--card)] border shadow-md hover:scale-105 transition-all"
+            >
               <CardHeader>
                 <div className="flex items-center gap-2">
                   <Folder className="h-5 w-5 text-[var(--primary)]" />
