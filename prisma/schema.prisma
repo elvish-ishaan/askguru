@@ -8,14 +8,15 @@ datasource db {
 }
 
 model User {
-  id                   String    @unique @default(uuid())
+  id                   String         @unique @default(uuid())
   name                 String?
   password             String?
-  email                String    @unique
+  email                String         @unique
   githubInstallationId String?
   projects             Project[]
-  created_at           DateTime  @default(now())
-  updated_at           DateTime  @default(now())
+  subscriptions        Subscription[]
+  created_at           DateTime       @default(now())
+  updated_at           DateTime       @default(now())
 }
 
 model Project {
@@ -88,4 +89,38 @@ model Usage {
   totalMessages   Int      @default(0)
   totalThreads    Int      @default(0)
   threads         Thread[]
+}
+
+enum PlanTier {
+  FREE
+  GROWTH
+  PRO
+  ENTERPRISE
+}
+
+enum SubscriptionStatus {
+  ACTIVE
+  CANCELED
+  PAST_DUE
+  UNPAID
+  TRIALING
+  INCOMPLETE
+  INCOMPLETE_EXPIRED
+  TRIALING_FUTURE
+}
+
+model Subscription {
+  id                   String             @unique @default(uuid())
+  userId               String
+  user                 User               @relation(fields: [userId], references: [id])
+  stripeSubscriptionId String?            @unique
+  stripeCustomerId     String?
+  stripePriceId        String?
+  plan                 PlanTier           @default(FREE)
+  status               SubscriptionStatus @default(ACTIVE)
+  currentPeriodStart   DateTime?
+  currentPeriodEnd     DateTime?
+  cancelAtPeriodEnd    Boolean            @default(false)
+  created_at           DateTime           @default(now())
+  updated_at           DateTime           @default(now())
 }
