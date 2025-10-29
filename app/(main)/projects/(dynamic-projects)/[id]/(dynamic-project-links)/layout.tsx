@@ -1,12 +1,12 @@
-import ProjectSidebar from '@/components/main/projectSidebar'
+import ProjectSidebar from "@/components/main/projectSidebar";
 
-const Layout = ({children}:{children: React.ReactNode}) => {
+const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <section className=' flex'>
-    <ProjectSidebar/>
-    { children }
+    <section className=" flex min-h-screen ">
+      <ProjectSidebar />
+      <div className="flex-1">{children}</div>
     </section>
-  )
-}
+  );
+};
 
-export default Layout
+export default Layout;

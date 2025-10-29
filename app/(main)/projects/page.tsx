@@ -1,56 +1,92 @@
-"use client"
+"use client";
 
-import { Plus, Folder, ArrowRight } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { Card, CardHeader, CardTitle, CardContent, CardFooter } from "@/components/ui/card"
-import { Skeleton } from "@/components/ui/skeleton"
-import { useEffect, useState } from "react"
-import { useRouter } from "next/navigation"
+import { Plus, Folder, ArrowRight } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Card, CardHeader, CardTitle, CardContent, CardFooter } from "@/components/ui/card";
+import { Skeleton } from "@/components/ui/skeleton";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import {
+  NavigationMenu,
+  NavigationMenuItem,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+  NavigationMenuContent,
+  NavigationMenuLink,
+} from "@/components/ui/navigation-menu";
 
 interface Project {
-  id: string
-  title: string
-  userId: string
-  sourceUrl: string
-  allowedOrigin: string
-  excludePaths: string[]
-  created_at: string
-  updated_at: string
+  id: string;
+  title: string;
+  userId: string;
+  sourceUrl: string;
+  allowedOrigin: string;
+  excludePaths: string[];
+  created_at: string;
+  updated_at: string;
 }
 
 export default function ProjectsPage() {
-  const [projects, setProjects] = useState<Project[] | []>([])
-  const [loading, setLoading] = useState(true)
-  const router = useRouter()
+  const [projects, setProjects] = useState<Project[] | []>([]);
+  const [loading, setLoading] = useState(true);
+  const router = useRouter();
 
   useEffect(() => {
     const fetchProjects = async () => {
       try {
-        const res = await fetch("/api/projects", { method: "GET" })
-        const data = await res.json()
-        if (!data.success) return
-        setProjects(data?.projects)
+        const res = await fetch("/api/projects", { method: "GET" });
+        const data = await res.json();
+        if (!data.success) return;
+        setProjects(data?.projects);
       } catch (error) {
-        console.log(error)
+        console.log(error);
       } finally {
-        setLoading(false)
+        setLoading(false);
       }
-    }
-    fetchProjects()
-  }, [])
+    };
+    fetchProjects();
+  }, []);
 
   return (
     <div className="min-h-screen w-full bg-[var(--background)] text-[var(--foreground)] px-6 py-10">
       {/* Header */}
       <div className="mx-auto max-w-6xl flex items-center justify-between">
         <h1 className="text-3xl font-medium text-primary">Projects</h1>
-        <Button
-          onClick={() => router.push("/projects/new")}
-          className="flex items-center gap-2 bg-[var(--primary)] text-[var(--primary-foreground)] hover:opacity-90"
-        >
-          <Plus className="h-4 w-4" />
-          Create New Project
-        </Button>
+        <NavigationMenu>
+          <NavigationMenuList>
+            <NavigationMenuItem>
+              <NavigationMenuTrigger className="flex items-center gap-2 bg-[var(--primary)] text-[var(--primary-foreground)] hover:opacity-90 px-4 py-2 rounded-md">
+                <Plus className="h-4 w-4" />
+                New
+              </NavigationMenuTrigger>
+              <NavigationMenuContent className="bg-[var(--card)] text-[var(--foreground)] rounded-md shadow-lg border border-white/10 p-2 w-48">
+                <div className="flex flex-col space-y-2">
+                  <NavigationMenuLink asChild>
+                    <Button
+                      variant="ghost"
+                      className="justify-start text-sm transition-colors hover:bg-black/5 dark:hover:bg-white/10"
+                      onClick={() => router.push("/projects/new")}
+                    >
+                      Create New Project
+                    </Button>
+                  </NavigationMenuLink>
+                  <NavigationMenuLink asChild>
+                    <Button
+                      variant="ghost"
+                      className="justify-start text-sm transition-colors hover:bg-black/5 dark:hover:bg-white/10"
+                      onClick={() =>
+                        (window.location.href =
+                          "https://github.com/apps/askguru-ai/installations/new")
+                      }
+                    >
+                      Add Repositories
+                    </Button>
+                  </NavigationMenuLink>
+                </div>
+              </NavigationMenuContent>
+            </NavigationMenuItem>
+          </NavigationMenuList>
+        </NavigationMenu>
       </div>
 
       {/* Projects Grid */}
@@ -75,7 +111,10 @@ export default function ProjectsPage() {
           ))
         ) : projects.length > 0 ? (
           projects.map((project) => (
-            <Card key={project.id} className="bg-[var(--card)] border shadow-md">
+            <Card
+              key={project.id}
+              className="bg-[var(--card)] border shadow-md hover:scale-105 transition-all"
+            >
               <CardHeader>
                 <div className="flex items-center gap-2">
                   <Folder className="h-5 w-5 text-[var(--primary)]" />
@@ -83,7 +122,9 @@ export default function ProjectsPage() {
                 </div>
               </CardHeader>
               <CardContent>
-                <p className="text-sm text-[var(--muted-foreground)]">{project?.created_at.toString()}</p>
+                <p className="text-sm text-[var(--muted-foreground)]">
+                  {project?.created_at.toString()}
+                </p>
               </CardContent>
               <CardFooter>
                 <Button
@@ -104,5 +145,5 @@ export default function ProjectsPage() {
         )}
       </div>
     </div>
-  )
+  );
 }

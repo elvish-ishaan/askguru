@@ -1,5 +1,5 @@
-
-import GoogleProvider from "next-auth/providers/google"
+import GoogleProvider from "next-auth/providers/google";
+import GitProvider from "next-auth/providers/github";
 import CredentialsProvider from "next-auth/providers/credentials";
 
 export const authOptions = {
@@ -8,31 +8,34 @@ export const authOptions = {
       clientId: process.env.GOOGLE_CLIENT_ID!,
       clientSecret: process.env.GOOGLE_CLIENT_SEC!,
     }),
+    GitProvider({
+      clientId: process.env.AUTH_GITHUB_ID!,
+      clientSecret: process.env.AUTH_GITHUB_SECRET!,
+    }),
     CredentialsProvider({
       name: "Credentials",
       credentials: {
-      email: { label: "Email", type: "text", placeholder: "jsmith@email.com" },
-      password: { label: "Password", type: "password" }
-    },
-    async authorize(credentials) {
-      console.log(credentials,'getting credentails.........')
-      const baseUrl = process.env.NEXTAUTH_URL || "http://localhost:3000"
-      const res = await fetch(`${baseUrl}/api/user`, {
-        method: 'POST',
-        body: JSON.stringify({
-          email: credentials?.email,
-          password: credentials?.password,
-        })
-      });
-      const userData = await res.json();
-      console.log(userData,'getting user data..........')
-      if(userData.success){
-        return userData.user
-      }
-      return null
-    }
-    })
-    
+        email: { label: "Email", type: "text", placeholder: "jsmith@email.com" },
+        password: { label: "Password", type: "password" },
+      },
+      async authorize(credentials) {
+        console.log(credentials, "getting credentails.........");
+        const baseUrl = process.env.NEXTAUTH_URL || "http://localhost:3000";
+        const res = await fetch(`${baseUrl}/api/user`, {
+          method: "POST",
+          body: JSON.stringify({
+            email: credentials?.email,
+            password: credentials?.password,
+          }),
+        });
+        const userData = await res.json();
+        console.log(userData, "getting user data..........");
+        if (userData.success) {
+          return userData.user;
+        }
+        return null;
+      },
+    }),
   ],
   secret: process.env.NEXTAUTH_SECRET,
   session: {
@@ -41,26 +44,25 @@ export const authOptions = {
   callbacks: {
     //@ts-expect-error add type here
     async jwt({ token }) {
-      return token
+      return token;
     },
     //@ts-expect-error add types here
     async session({ session, token }) {
-
       //fetch user details and add to session
-      const baseUrl = process.env.NEXTAUTH_URL || "http://localhost:3000"
+      const baseUrl = process.env.NEXTAUTH_URL || "http://localhost:3000";
       const res = await fetch(`${baseUrl}/api/user`, {
-        method: 'POST',
+        method: "POST",
         body: JSON.stringify({
           userId: token.sub,
           name: token.name,
           email: token.email,
-        })
+        }),
       });
       const userData = await res.json();
       if (userData.success) {
-        session.user = userData?.user
+        session.user = userData?.user;
       }
-      return session
+      return session;
     },
   },
-}
+};

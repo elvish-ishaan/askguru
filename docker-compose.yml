@@ -6,10 +6,10 @@ services:
       POSTGRES_PASSWORD: postgres
       POSTGRES_USER: postgres
       POSTGRES_DB: postgres
-    ports:      
+    ports:
       - 5432:5432
     volumes:
-      - ./postgres-data-askguru:/var/lib/postgresql/data
-      
+      - postgres-data-askguru:/var/lib/postgresql/data
+
 volumes:
   postgres-data-askguru:
