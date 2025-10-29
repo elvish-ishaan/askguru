@@ -47,7 +47,6 @@ export default function DocsPage() {
 
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const codeBlocks = [
@@ -67,17 +66,19 @@ export default function DocsPage() {
   ];
 
   return (
-    <div className="flex min-h-screen w-full bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-950 dark:to-slate-900">
+    <div className="flex min-h-screen w-full bg-gradient-to-br from-slate-50 via-slate-100 to-slate-200 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 mt-15">
       {/* Sidebar */}
-      <aside className="sticky top-0 h-screen w-72 border-r border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl">
-        <div className="p-6 border-b border-slate-200 dark:border-slate-800">
+      <aside className="sticky top-0 h-screen w-72 border-r border-slate-200/60 dark:border-slate-800/60 bg-white/60 dark:bg-slate-900/60 backdrop-blur-2xl shadow-xl">
+        <div className="p-6 border-b border-slate-200/60 dark:border-slate-800/60">
           <div className="flex items-center gap-3 mb-2">
             {/* <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center">
               <Zap className="h-5 w-5 text-white" />
             </div> */}
             <div>
-              <h2 className="text-xl font-bold text-primary bg-clip-text ">AskGuru</h2>
-              <p className="text-xs text-slate-500">Documentation</p>
+              <h2 className="text-xl font-bold bg-gradient-to-r from-blue-600 to-purple-500 bg-clip-text text-transparent ">
+                AskGuru
+              </h2>
+              <p className="text-xs text-slate-500 dark:text-slate-400">Documentation</p>
             </div>
           </div>
         </div>
@@ -166,11 +167,11 @@ export default function DocsPage() {
         <div className="max-w-4xl mx-auto px-8 py-12">
           {/* Hero Section */}
           <div className="mb-16">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-950 text-blue-600 dark:text-blue-400 text-sm font-medium mb-6">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gradient-to-r from-blue-100 to-purple-100 dark:from-blue-950/60 dark:to-purple-950/60 text-blue-700 dark:text-blue-300 text-sm font-medium mb-6 shadow-sm">
               <Zap className="h-3 w-3" />
               v1.0.0
             </div>
-            <h1 className="text-5xl font-bold mb-4 bg-gradient-to-r from-slate-900 to-slate-600 dark:from-slate-100 dark:to-slate-400 bg-clip-text text-transparent">
+            <h1 className="text-5xl font-bold mb-4 bg-gradient-to-r from-blue-600 via-purple-500 to-pink-500 bg-clip-text text-transparent">
               AskGuru
             </h1>
             <p className="text-xl text-slate-600 dark:text-slate-400 leading-relaxed">
@@ -379,8 +380,8 @@ export default function DocsPage() {
       </main>
 
       {/* Right Side Index */}
-      <aside className="hidden xl:block sticky top-0 h-screen w-64 border-l border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl p-6">
-        <h3 className="text-sm font-semibold mb-4 text-slate-900 dark:text-slate-100">
+      <aside className="hidden xl:block sticky top-0 h-screen w-64 border-l border-slate-200/60 dark:border-slate-800/60 bg-white/60 dark:bg-slate-900/60 backdrop-blur-2xl p-6 shadow-xl">
+        <h3 className="text-sm font-semibold mb-4 text-slate-700 dark:text-slate-300 tracking-wide uppercase">
           On this page
         </h3>
         <ul className="space-y-2">

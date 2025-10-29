@@ -160,36 +160,43 @@ export default function PricingPage() {
   ];
 
   return (
-    <div className="min-h-screen w-full bg-black text-white py-16">
-      <div className="max-w-7xl mx-auto px-6 mt-10">
+    <div className="relative min-h-screen w-full text-white py-20 overflow-hidden">
+      <div
+        className="absolute inset-0 -z-10"
+        style={{
+          backgroundImage: `
+        radial-gradient(circle at 20% 30%, rgba(155,139,255,0.15), transparent 60%),
+        radial-gradient(circle at 80% 70%, rgba(255,154,139,0.1), transparent 70%),
+        linear-gradient(180deg, #050507 0%, #0b0b10 50%, #0a0a0e 100%)
+      `,
+          backgroundBlendMode: "overlay",
+        }}
+      />
+
+      <div className="absolute top-10 left-20 w-72 h-72 bg-purple-600/10 blur-[120px] rounded-full -z-10" />
+      <div className="absolute bottom-10 right-20 w-80 h-80 bg-pink-500/10 blur-[140px] rounded-full -z-10" />
+      <div className="absolute top-1/2 left-1/2 w-[800px] h-[800px] bg-blue-900/5 blur-[200px] rounded-full -translate-x-1/2 -translate-y-1/2 -z-10" />
+
+      <div className="max-w-7xl mx-auto px-6 mt-10 relative z-10">
         {/* Heading */}
-        <div className="text-center mb-10">
-          <h1 className="text-5xl md:text-6xl font-extrabold mb-3">Pricing Plans</h1>
+        <div className="text-center mb-16">
+          <h1 className="text-5xl md:text-6xl font-extrabold mb-5 bg-gradient-to-r from-purple-400 via-pink-400 to-orange-300 bg-clip-text text-transparent leading-tight">
+            Pricing Plans
+          </h1>
           <p className="text-gray-400 text-lg md:text-xl">
             Start for free and scale with your team’s needs.
           </p>
-
-          {/* Currency toggle */}
-          {/* <div className="mt-6 flex justify-center gap-4">
-            <Switch
-              id="currency-switch"
-              checked={currency === "inr"}
-              onCheckedChange={handleCurrencyChange}
-            />
-            <Label htmlFor="currency-switch" className="mr-2">
-              {currency === "usd" ? "USD ($)" : "INR (₹)"}
-            </Label>
-          </div> */}
         </div>
 
-        {/* Pricing grid */}
+        {/* Pricing Grid */}
         <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-4">
           {plans.map((plan) => (
             <Card
               key={plan.name}
               className={cn(
-                "flex flex-col backdrop-blur-lg bg-white/10 border border-white/20 rounded-lg shadow-xl hover:scale-105 transition-transform duration-300",
-                plan.highlight && "border-gradient-r from-purple-500 to-pink-500 relative",
+                "flex flex-col backdrop-blur-lg bg-white/5 border border-white/10 rounded-2xl shadow-lg hover:scale-105 transition-transform duration-300",
+                plan.highlight &&
+                  "border border-purple-400/50 shadow-[0_0_30px_rgba(168,85,247,0.2)]",
               )}
             >
               <CardHeader className="pb-3">
@@ -217,10 +224,10 @@ export default function PricingPage() {
                   onClick={() => handleCheckout(plan.name, plan.stripePriceId)}
                   disabled={loading === plan.name}
                   className={cn(
-                    "mb-6 rounded-full py-3 text-base font-medium shadow-lg",
+                    "mb-6 rounded-full py-3 text-base font-medium shadow-lg transition-all duration-200",
                     plan.highlight
                       ? "bg-gradient-to-r from-purple-500 to-pink-500 text-white hover:opacity-90"
-                      : "bg-white text-black hover:opacity-95",
+                      : "bg-white text-black hover:opacity-90",
                   )}
                 >
                   {loading === plan.name
@@ -239,7 +246,7 @@ export default function PricingPage() {
                   ))}
                 </ul>
 
-                {/* Slots left */}
+                {/* Slots Left */}
                 {plan.slotsLeft && (
                   <div className="mt-4 flex items-center gap-2 text-red-500 text-sm font-medium">
                     <AlertTriangle className="h-4 w-4" />

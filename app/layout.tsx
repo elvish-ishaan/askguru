@@ -1,31 +1,31 @@
 import type { Metadata } from "next";
-import { Noticia_Text, Fira_Sans_Extra_Condensed, Numans} from "next/font/google";
+import { Noticia_Text, Fira_Sans_Extra_Condensed, Numans } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/ui/theme-provider";
 import AuthProvider from "@/components/providers/authProvider";
 
-
 const noticia = Noticia_Text({
   variable: "--font-noticia",
-  weight: '400',
-  subsets: ["latin"]
-})
+  weight: "400",
+  subsets: ["latin"],
+});
 
 const firaSans = Fira_Sans_Extra_Condensed({
   variable: "--font-firaSans",
-  weight: '100',
-  subsets: ["cyrillic"]
-})
+  weight: "100",
+  subsets: ["cyrillic"],
+});
 
 const numans = Numans({
-  variable: '--font-numans',
-  weight: '400',
-  subsets: ["latin"]
-})
+  variable: "--font-numans",
+  weight: "400",
+  subsets: ["latin"],
+});
 
 export const metadata: Metadata = {
   title: "AskGuru | Make website conversational",
-  description: "With askguru you can integrate a chat widget into you website and let your users to chat with your website.",
+  description:
+    "With askguru you can integrate a chat widget into you website and let your users to chat with your website.",
 };
 
 export default function RootLayout({
@@ -39,15 +39,15 @@ export default function RootLayout({
         className={`${firaSans.variable} ${noticia.variable} ${numans.variable} antialiased tracking-wider`}
       >
         <AuthProvider>
-             <ThemeProvider
-          attribute={"class"}
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
+          <ThemeProvider
+            attribute={"class"}
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
           >
             {children}
           </ThemeProvider>
-          </AuthProvider>
+        </AuthProvider>
       </body>
     </html>
   );
