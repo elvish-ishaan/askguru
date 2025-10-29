@@ -6,7 +6,15 @@ import { useRouter } from "next/navigation";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Loader2, CheckCircle2 } from "lucide-react";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { Loader2, CheckCircle2, CreditCard, Trash2, Plus, Check } from "lucide-react";
 
 interface Subscription {
   id: string;
@@ -19,6 +27,23 @@ interface Subscription {
   stripeCustomerId: string | null;
 }
 
+interface PaymentMethod {
+  id: string;
+  type: string;
+  card: {
+    brand: string;
+    last4: string;
+    expMonth: number;
+    expYear: number;
+  } | null;
+  billingDetails?: {
+    name?: string | null;
+    email?: string | null;
+  } | null;
+  isDefault: boolean;
+  created: number;
+}
+
 export default function BillingPage() {
   const { data: session } = useSession();
   const router = useRouter();
@@ -27,6 +52,14 @@ export default function BillingPage() {
   const [cancelling, setCancelling] = useState(false);
   const [reactivating, setReactivating] = useState(false);
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
+  const [paymentMethods, setPaymentMethods] = useState<PaymentMethod[]>([]);
+  const [paymentMethodsLoading, setPaymentMethodsLoading] = useState(false);
+  const [addingPaymentMethod, setAddingPaymentMethod] = useState(false);
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [paymentMethodToDelete, setPaymentMethodToDelete] = useState<string | null>(null);
+  const [deleting, setDeleting] = useState(false);
+  const [settingDefault, setSettingDefault] = useState<string | null>(null);
+  const [openingBillingPortal, setOpeningBillingPortal] = useState(false);
 
   const fetchSubscription = async () => {
     try {
@@ -60,8 +93,24 @@ export default function BillingPage() {
     }
   };
 
+  const fetchPaymentMethods = async () => {
+    setPaymentMethodsLoading(true);
+    try {
+      const response = await fetch("/api/payment-methods");
+      if (response.ok) {
+        const data = await response.json();
+        setPaymentMethods(data.paymentMethods || []);
+      }
+    } catch (error) {
+      console.error("Error fetching payment methods:", error);
+    } finally {
+      setPaymentMethodsLoading(false);
+    }
+  };
+
   useEffect(() => {
     fetchSubscription();
+    fetchPaymentMethods();
 
     // Check for subscription success query parameter (client-side only)
     if (typeof window !== "undefined") {
@@ -79,6 +128,18 @@ export default function BillingPage() {
         setTimeout(() => {
           setShowSuccessMessage(false);
         }, 5000);
+      }
+
+      // Refresh payment methods after returning from Stripe checkout or billing portal
+      const paymentMethodAdded = urlParams.get("payment_method_added");
+      const refreshPaymentMethods = urlParams.get("refresh_payment_methods");
+      if (paymentMethodAdded === "true" || refreshPaymentMethods === "true") {
+        setTimeout(() => {
+          fetchPaymentMethods();
+          // Clean up URL after refresh
+          const cleanUrl = window.location.pathname;
+          router.replace(cleanUrl);
+        }, 1000);
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -133,6 +194,92 @@ export default function BillingPage() {
       default:
         return "bg-gray-500";
     }
+  };
+
+  const handleAddPaymentMethod = async () => {
+    setAddingPaymentMethod(true);
+    try {
+      // Redirect to Stripe billing portal for adding payment methods
+      window.location.href = `/api/payment-methods/billing-portal`;
+    } catch (error) {
+      console.error("Error adding payment method:", error);
+      setAddingPaymentMethod(false);
+    }
+  };
+
+  const handleSetDefault = async (paymentMethodId: string) => {
+    setSettingDefault(paymentMethodId);
+    try {
+      const response = await fetch("/api/payment-methods/set-default", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ paymentMethodId }),
+      });
+
+      if (response.ok) {
+        await fetchPaymentMethods();
+      }
+    } catch (error) {
+      console.error("Error setting default payment method:", error);
+    } finally {
+      setSettingDefault(null);
+    }
+  };
+
+  const handleDeleteClick = (paymentMethodId: string) => {
+    setPaymentMethodToDelete(paymentMethodId);
+    setDeleteDialogOpen(true);
+  };
+
+  const handleDeleteConfirm = async () => {
+    if (!paymentMethodToDelete) return;
+
+    setDeleting(true);
+    try {
+      const response = await fetch("/api/payment-methods/delete", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ paymentMethodId: paymentMethodToDelete }),
+      });
+
+      if (response.ok) {
+        await fetchPaymentMethods();
+        setDeleteDialogOpen(false);
+        setPaymentMethodToDelete(null);
+      } else {
+        const data = await response.json();
+        alert(data.error || "Failed to delete payment method");
+      }
+    } catch (error) {
+      console.error("Error deleting payment method:", error);
+      alert("Failed to delete payment method");
+    } finally {
+      setDeleting(false);
+    }
+  };
+
+  const getCardBrandIcon = (brand: string) => {
+    return brand.charAt(0).toUpperCase() + brand.slice(1);
+  };
+
+  const handleManageBilling = async () => {
+    setOpeningBillingPortal(true);
+    try {
+      // Redirect to Stripe billing portal
+      window.location.href = `/api/subscriptions/billing-portal`;
+    } catch (error) {
+      console.error("Error opening billing portal:", error);
+      setOpeningBillingPortal(false);
+    }
+  };
+
+  const handleUpdatePaymentMethod = async () => {
+    // Redirect to payment methods billing portal or general billing portal
+    window.location.href = `/api/payment-methods/billing-portal`;
   };
 
   if (loading) {
@@ -212,11 +359,17 @@ export default function BillingPage() {
                 )}
                 <Button
                   variant="outline"
-                  onClick={() => {
-                    window.open("https://billing.stripe.com/p/login/test", "_blank");
-                  }}
+                  onClick={handleManageBilling}
+                  disabled={openingBillingPortal}
                 >
-                  Manage Billing
+                  {openingBillingPortal ? (
+                    <>
+                      <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                      Opening...
+                    </>
+                  ) : (
+                    "Manage Billing"
+                  )}
                 </Button>
               </div>
             )}
@@ -236,7 +389,7 @@ export default function BillingPage() {
                   Your payment failed. Please update your payment method to continue your
                   subscription.
                 </p>
-                <Button className="mt-2" variant="outline">
+                <Button className="mt-2" variant="outline" onClick={handleUpdatePaymentMethod}>
                   Update Payment Method
                 </Button>
               </div>
@@ -260,22 +413,168 @@ export default function BillingPage() {
 
       <Card>
         <CardHeader>
-          <CardTitle>Payment Methods</CardTitle>
+          <div className="flex justify-between items-center">
+            <CardTitle>Payment Methods</CardTitle>
+            <div className="flex gap-2">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={handleManageBilling}
+                disabled={openingBillingPortal}
+              >
+                {openingBillingPortal ? (
+                  <>
+                    <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                    Opening...
+                  </>
+                ) : (
+                  "Manage Billing"
+                )}
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={handleAddPaymentMethod}
+                disabled={addingPaymentMethod}
+              >
+                {addingPaymentMethod ? (
+                  <>
+                    <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                    Adding...
+                  </>
+                ) : (
+                  <>
+                    <Plus className="h-4 w-4 mr-2" />
+                    Add Payment Method
+                  </>
+                )}
+              </Button>
+            </div>
+          </div>
         </CardHeader>
         <CardContent>
-          <p className="text-gray-400 mb-4">
-            Manage your payment methods and billing information in Stripe.
-          </p>
-          <Button
-            variant="outline"
-            onClick={() => {
-              window.open("https://billing.stripe.com/p/login/test", "_blank");
-            }}
-          >
-            Manage Payment Methods
-          </Button>
+          {paymentMethodsLoading ? (
+            <div className="flex items-center justify-center py-8">
+              <Loader2 className="h-6 w-6 animate-spin" />
+            </div>
+          ) : paymentMethods.length === 0 ? (
+            <div className="text-center py-8">
+              <CreditCard className="h-12 w-12 mx-auto text-gray-400 mb-4" />
+              <p className="text-gray-400 mb-4">No payment methods on file</p>
+              <Button
+                variant="outline"
+                onClick={handleAddPaymentMethod}
+                disabled={addingPaymentMethod}
+              >
+                <Plus className="h-4 w-4 mr-2" />
+                Add Payment Method
+              </Button>
+            </div>
+          ) : (
+            <div className="space-y-3">
+              {paymentMethods.map((pm) => (
+                <div
+                  key={pm.id}
+                  className="flex items-center justify-between p-4 border rounded-lg hover:bg-gray-50 dark:hover:bg-gray-900/50"
+                >
+                  <div className="flex items-center gap-4">
+                    <div className="p-3 bg-gray-100 dark:bg-gray-800 rounded-lg">
+                      <CreditCard className="h-6 w-6 text-gray-600 dark:text-gray-400" />
+                    </div>
+                    <div>
+                      <div className="flex items-center gap-2">
+                        <p className="font-semibold">
+                          {pm.card
+                            ? `${getCardBrandIcon(pm.card.brand)} •••• ${pm.card.last4}`
+                            : pm.type === "amazon_pay"
+                            ? "Amazon Pay"
+                            : pm.type === "paypal"
+                            ? "PayPal"
+                            : pm.billingDetails?.name || "Payment Method"}
+                        </p>
+                        {pm.isDefault && (
+                          <Badge
+                            variant="outline"
+                            className="bg-green-100 dark:bg-green-900/20 text-green-700 dark:text-green-400 border-green-300 dark:border-green-700"
+                          >
+                            Default
+                          </Badge>
+                        )}
+                      </div>
+                      {pm.card && (
+                        <p className="text-sm text-gray-500">
+                          Expires {pm.card.expMonth.toString().padStart(2, "0")}/{pm.card.expYear}
+                        </p>
+                      )}
+                      {!pm.card && pm.billingDetails?.email && (
+                        <p className="text-sm text-gray-500">{pm.billingDetails.email}</p>
+                      )}
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    {!pm.isDefault && (
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => handleSetDefault(pm.id)}
+                        disabled={settingDefault === pm.id}
+                      >
+                        {settingDefault === pm.id ? (
+                          <Loader2 className="h-4 w-4 animate-spin" />
+                        ) : (
+                          <>
+                            <Check className="h-4 w-4 mr-1" />
+                            Set Default
+                          </>
+                        )}
+                      </Button>
+                    )}
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => handleDeleteClick(pm.id)}
+                      disabled={deleting || pm.isDefault}
+                      className="text-red-600 hover:text-red-700 hover:bg-red-50 dark:hover:bg-red-900/20"
+                    >
+                      <Trash2 className="h-4 w-4" />
+                    </Button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
         </CardContent>
       </Card>
+
+      <Dialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Delete Payment Method</DialogTitle>
+            <DialogDescription>
+              Are you sure you want to delete this payment method? This action cannot be undone.
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter>
+            <Button
+              variant="outline"
+              onClick={() => setDeleteDialogOpen(false)}
+              disabled={deleting}
+            >
+              Cancel
+            </Button>
+            <Button variant="destructive" onClick={handleDeleteConfirm} disabled={deleting}>
+              {deleting ? (
+                <>
+                  <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                  Deleting...
+                </>
+              ) : (
+                "Delete"
+              )}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
