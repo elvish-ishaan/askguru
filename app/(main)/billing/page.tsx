@@ -2,10 +2,11 @@
 
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Loader2 } from "lucide-react";
+import { Loader2, CheckCircle2 } from "lucide-react";
 
 interface Subscription {
   id: string;
@@ -20,14 +21,12 @@ interface Subscription {
 
 export default function BillingPage() {
   const { data: session } = useSession();
+  const router = useRouter();
   const [subscription, setSubscription] = useState<Subscription | null>(null);
   const [loading, setLoading] = useState(true);
   const [cancelling, setCancelling] = useState(false);
   const [reactivating, setReactivating] = useState(false);
-
-  useEffect(() => {
-    fetchSubscription();
-  }, [session]);
+  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
 
   const fetchSubscription = async () => {
     try {
@@ -35,13 +34,55 @@ export default function BillingPage() {
       if (response.ok) {
         const data = await response.json();
         setSubscription(data);
+        setLoading(false);
+        return true;
+      } else if (response.status === 404) {
+        // No subscription found
+        setSubscription(null);
+        setLoading(false);
+        return false;
       }
     } catch (error) {
       console.error("Error fetching subscription:", error);
     } finally {
       setLoading(false);
     }
+    return false;
   };
+
+  const pollSubscriptionWithRetries = async (retries = 5, delay = 2000) => {
+    for (let i = 0; i < retries; i++) {
+      await new Promise((resolve) => setTimeout(resolve, delay));
+      const success = await fetchSubscription();
+      if (success) {
+        break;
+      }
+    }
+  };
+
+  useEffect(() => {
+    fetchSubscription();
+
+    // Check for subscription success query parameter (client-side only)
+    if (typeof window !== "undefined") {
+      const urlParams = new URLSearchParams(window.location.search);
+      const subscriptionSuccess = urlParams.get("subscription_success");
+      const sessionId = urlParams.get("session_id");
+
+      if (subscriptionSuccess === "true" || sessionId) {
+        setShowSuccessMessage(true);
+        // Poll for subscription with retries (webhook might be delayed)
+        pollSubscriptionWithRetries();
+        // Clean up URL
+        router.replace("/billing");
+        // Hide success message after 5 seconds
+        setTimeout(() => {
+          setShowSuccessMessage(false);
+        }, 5000);
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [session]);
 
   const handleCancelSubscription = async () => {
     if (!confirm("Are you sure you want to cancel your subscription?")) {
@@ -108,6 +149,24 @@ export default function BillingPage() {
         <h1 className="text-3xl font-bold">Billing & Subscriptions</h1>
         <p className="text-gray-400 mt-2">Manage your subscription and billing information</p>
       </div>
+
+      {showSuccessMessage && (
+        <Card className="border-green-500 bg-green-50 dark:bg-green-900/20">
+          <CardContent className="pt-6">
+            <div className="flex items-center gap-3">
+              <CheckCircle2 className="h-5 w-5 text-green-500" />
+              <div>
+                <p className="font-semibold text-green-700 dark:text-green-400">
+                  Subscription Activated!
+                </p>
+                <p className="text-sm text-green-600 dark:text-green-300">
+                  Your subscription has been successfully activated. Welcome to your new plan!
+                </p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      )}
 
       {subscription ? (
         <Card>
@@ -191,7 +250,8 @@ export default function BillingPage() {
           </CardHeader>
           <CardContent>
             <p className="text-gray-400 mb-4">
-              You don't have an active subscription. Upgrade to a paid plan to unlock more features.
+              You don&apos;t have an active subscription. Upgrade to a paid plan to unlock more
+              features.
             </p>
             <Button onClick={() => (window.location.href = "/pricing")}>View Plans</Button>
           </CardContent>

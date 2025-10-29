@@ -13,7 +13,6 @@ export async function POST() {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    // @ts-ignore subscriptions relation needs regenerating Prisma client
     const user = await prisma.user.findUnique({
       where: { email: session.user.email },
       include: {

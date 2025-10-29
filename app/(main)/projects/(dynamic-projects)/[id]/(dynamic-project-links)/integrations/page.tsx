@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { PlugZap, Loader2, Github, CheckCircle, ExternalLink, Check } from "lucide-react";
+import { Loader2, Github, CheckCircle, ExternalLink, Check } from "lucide-react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { useState, useEffect, useCallback } from "react";
 import { useParams } from "next/navigation";
