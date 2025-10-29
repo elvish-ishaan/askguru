@@ -1,6 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -12,6 +14,59 @@ import { AlertTriangle } from "lucide-react";
 export default function PricingPage() {
   const [currency, setCurrency] = useState<"usd" | "inr">("usd");
   const [annual, setAnnual] = useState(false);
+  const [loading, setLoading] = useState<string | null>(null);
+  const { data: session } = useSession();
+  const router = useRouter();
+
+  const handleCheckout = async (planName: string, stripePriceId?: string) => {
+    if (planName === "Free") {
+      router.push("/projects");
+      return;
+    }
+
+    if (planName === "Enterprise") {
+      // Handle enterprise custom pricing
+      window.location.href = "mailto:sales@example.com";
+      return;
+    }
+
+    if (!session) {
+      router.push("/auth");
+      return;
+    }
+
+    if (!stripePriceId) {
+      console.error("No Stripe price ID for plan:", planName);
+      return;
+    }
+
+    setLoading(planName);
+
+    try {
+      const response = await fetch("/api/subscriptions/create-checkout", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          priceId: stripePriceId,
+          planTier: planName.toUpperCase(),
+        }),
+      });
+
+      const data = await response.json();
+
+      if (data.url) {
+        window.location.href = data.url;
+      } else {
+        console.error("Failed to create checkout session");
+      }
+    } catch (error) {
+      console.error("Error creating checkout session:", error);
+    } finally {
+      setLoading(null);
+    }
+  };
 
   // curreny toggle
   // const handleCurrencyChange = (checked: boolean) => {
@@ -49,6 +104,7 @@ export default function PricingPage() {
         "Email support",
         "Weekly usage reports",
       ],
+      stripePriceId: undefined,
     },
     {
       name: "Growth",
@@ -64,6 +120,7 @@ export default function PricingPage() {
         "Basic CRM/Email integration",
       ],
       highlight: true,
+      stripePriceId: process.env.NEXT_PUBLIC_STRIPE_GROWTH_MONTHLY_USD_PRICE_ID,
     },
     {
       name: "Pro",
@@ -79,6 +136,7 @@ export default function PricingPage() {
         "User access control",
         "Multiple Languages",
       ],
+      stripePriceId: process.env.NEXT_PUBLIC_STRIPE_PRO_MONTHLY_USD_PRICE_ID,
     },
     {
       name: "Enterprise",
@@ -97,6 +155,7 @@ export default function PricingPage() {
       ],
       lifetime: true,
       slotsLeft: 8,
+      stripePriceId: undefined,
     },
   ];
 
@@ -162,6 +221,8 @@ export default function PricingPage() {
 
                 {/* CTA */}
                 <Button
+                  onClick={() => handleCheckout(plan.name, plan.stripePriceId)}
+                  disabled={loading === plan.name}
                   className={cn(
                     "mb-6 rounded-full py-3 text-base font-medium shadow-lg transition-all duration-200",
                     plan.highlight
@@ -169,7 +230,11 @@ export default function PricingPage() {
                       : "bg-white text-black hover:opacity-90",
                   )}
                 >
-                  {plan.name === "Enterprise" ? "Book a Demo" : "Get Started"}
+                  {loading === plan.name
+                    ? "Loading..."
+                    : plan.name === "Enterprise"
+                    ? "Book a Demo"
+                    : "Get Started"}
                 </Button>
 
                 {/* Features */}
