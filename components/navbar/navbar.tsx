@@ -42,7 +42,15 @@ export default function Navbar() {
 
         {/* Actions */}
         <div className="hidden items-center gap-3 md:flex">
-          <Button onClick={() => router.push("/auth")}>Get Started</Button>
+          <Button
+            onClick={() => router.push("/auth")}
+            className="w-full py-3 rounded-lg font-semibold text-white bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500
+               hover:from-indigo-400 hover:via-purple-400 hover:to-pink-400
+               transition-all duration-300 shadow-[0_0_20px_rgba(147,51,234,0.4)] hover:shadow-[0_0_30px_rgba(236,72,153,0.5)]
+               backdrop-blur-sm"
+          >
+            Get Started
+          </Button>
         </div>
 
         {/* Mobile Nav */}
@@ -71,17 +79,19 @@ export default function Navbar() {
                 ))}
               </nav>
 
-              <div className="">
-                <Button
-                  variant="default"
-                  className="w-full bg-[var(--primary)] text-black font-semibold py-3 rounded-lg hover:brightness-105 transition-all"
+              <div className="w-full">
+                <button
                   onClick={() => {
                     router.push("/auth");
                     setOpen(false);
                   }}
+                  className="w-full py-3 rounded-xl font-semibold text-white bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500
+               hover:from-indigo-400 hover:via-purple-400 hover:to-pink-400
+               transition-all duration-300 shadow-[0_0_20px_rgba(147,51,234,0.4)] hover:shadow-[0_0_30px_rgba(236,72,153,0.5)]
+               backdrop-blur-sm"
                 >
-                  Get started
-                </Button>
+                  Get Started
+                </button>
               </div>
             </SheetContent>
           </Sheet>
