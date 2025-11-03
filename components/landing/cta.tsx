@@ -27,13 +27,13 @@ export default function CtaCard() {
         <h2 className="text-4xl md:text-5xl font-bold text-white leading-snug">
           Supercharge Your Website with <br />
           <span className="bg-gradient-to-r from-purple-400 to-pink-500 bg-clip-text text-transparent">
-            AI Chat & Doc Generation
+            AI Chat
           </span>
         </h2>
 
         <p className="mt-4 text-lg text-gray-400 max-w-2xl mx-auto">
-          Engage users instantly with intelligent conversations and generate professional documents
-          directly from your workflow—all in one platform with{" "}
+          Engage users instantly with intelligent, human-like conversations — all in one seamless AI
+          platform with {""}
           <span className="text-white font-medium">AskGuru</span>.
         </p>
 

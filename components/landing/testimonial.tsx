@@ -10,42 +10,42 @@ const testimonials = [
     name: "Priya Menon",
     role: "Manager, Next Solutions",
     quote:
-      "AskGuru has completely transformed how we handle support queries and document workflows. Our response times and report generation have improved drastically.",
+      "AskGuru has completely transformed how we handle customer queries and support. Our response times and team efficiency have improved drastically.",
     img: "https://randomuser.me/api/portraits/women/45.jpg",
   },
   {
     name: "David Chen",
     role: "Founder, BrightPath Systems",
     quote:
-      "The automation, conversational intelligence, and AI-powered document generation have saved us countless hours. Truly next-gen tech.",
+      "The automation and conversational intelligence have saved us countless hours. Truly next-gen technology for modern teams.",
     img: "https://randomuser.me/api/portraits/men/32.jpg",
   },
   {
     name: "Sarah Thompson",
     role: "Head of Marketing, FlowBridge",
     quote:
-      "AskGuru gave our customers a personalized support experience and allowed us to generate professional documents instantly. Highly recommend it!",
+      "AskGuru gave our customers a personalized support experience that feels natural, fast, and incredibly engaging.",
     img: "https://randomuser.me/api/portraits/women/68.jpg",
   },
   {
     name: "Rohit Verma",
     role: "Product Manager, InnoSphere",
     quote:
-      "Smooth setup and incredible efficiency. Our workflow feels faster and more cohesive with both chat and document automation.",
+      "Smooth setup and impressive performance. Our workflow feels faster and more connected with AskGuru’s intelligent chat system.",
     img: "https://randomuser.me/api/portraits/men/12.jpg",
   },
   {
     name: "Elena Rodriguez",
     role: "CTO, Visionary Softworks",
     quote:
-      "AskGuru has become an integral part of our operations — AI chat and automated document insights alone are priceless.",
+      "AskGuru has become an integral part of our operations — the AI chat experience and smart insights are truly game-changing.",
     img: "https://randomuser.me/api/portraits/women/23.jpg",
   },
   {
     name: "Diego Morales",
     role: "Manager, Bright Solutions",
     quote:
-      "The AI insights and document generation helped our business scale faster with smarter customer interactions.",
+      "The AI insights and smart automation helped our business scale faster and engage customers more effectively.",
     img: "https://randomuser.me/api/portraits/men/51.jpg",
   },
 ];

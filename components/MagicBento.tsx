@@ -33,38 +33,38 @@ const cardData: BentoCardProps[] = [
   {
     color: "#060010",
     title: "AI Chat",
-    description: "Make your website interactive with AskGuru’s intelligent assistant.",
+    description: "Bring your website to life with AskGuru’s intelligent, real-time assistant.",
     label: "Intelligence",
   },
   {
     color: "#060010",
     title: "API Keys",
-    description: "Create and manage project API keys securely and effortlessly.",
+    description: "Easily create, manage, and secure your API keys for seamless integrations.",
     label: "Access",
   },
   {
     color: "#060010",
-    title: "Doc Generation",
-    description: "Generate professional documents instantly with AI, right from your dashboard.",
-    label: "Productivity",
-  },
-
-  {
-    color: "#060010",
     title: "Analytics",
-    description: "Track usage and monitor performance across chats and documents.",
+    description: "Gain insights into user interactions, chat performance, and engagement trends.",
     label: "Insights",
   },
   {
     color: "#060010",
+    title: "Customization",
+    description:
+      "Tailor your chatbot’s personality, style, and tone to perfectly match your brand.",
+    label: "Branding",
+  },
+  {
+    color: "#060010",
     title: "Security",
-    description: "Advanced protection with strict data privacy controls for your chats and docs.",
+    description: "Keep your data protected with enterprise-grade privacy and encryption standards.",
     label: "Protection",
   },
   {
     color: "#060010",
     title: "Settings",
-    description: "Customize and fine-tune AskGuru to suit your workflow.",
+    description: "Personalize and fine-tune AskGuru to match your workflow and preferences.",
     label: "Control",
   },
 ];
