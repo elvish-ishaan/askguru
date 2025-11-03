@@ -24,9 +24,8 @@ export default function Features() {
               ?
             </h2>
             <p className="text-base sm:text-lg md:text-lg text-[#D1D9E6]">
-              Discover the next level of AI websites. AskGuru combines smart chat, AI-powered
-              document generation, and seamless integrations to create a truly intelligent user
-              experience.
+              Discover the next level of AI websites. AskGuru combines smart chat and seamless
+              integrations to deliver a truly intelligent user experience.
             </p>
           </motion.div>
 

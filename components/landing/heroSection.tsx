@@ -49,8 +49,8 @@ export default function HeroSection() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.4 }}
         >
-          Engage your users with intelligent chat and generate professional documents
-          instantly—delivering seamless, AI-powered experiences on your site.
+          Engage your users with an intelligent AI chatbot that delivers fast, natural, and seamless
+          conversations on your site.
         </motion.p>
 
         {/* Copy Command */}
