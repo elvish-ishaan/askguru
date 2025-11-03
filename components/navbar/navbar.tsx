@@ -24,7 +24,7 @@ export default function Navbar() {
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         {/* Logo */}
         <Link href="/" className="">
-          <Image src="/askguruLogo.png" alt="askguru_logo" width={120} height={120} />
+          <Image src="/platformLogo.png" alt="askguru_logo" width={120} height={120} />
         </Link>
 
         {/* Desktop Nav */}
