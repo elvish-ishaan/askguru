@@ -11,5 +11,21 @@ services:
     volumes:
       - postgres-data-askguru:/var/lib/postgresql/data
 
+  # Optional: Add Stripe CLI service for webhooks
+  stripe-cli:
+    image: stripe/stripe-cli:latest
+    volumes:
+      - stripe-cli-config:/home/stripe/.config/stripe
+    entrypoint:
+      [
+        "stripe",
+        "listen",
+        "--forward-to",
+        "host.docker.internal:3000/api/subscriptions/webhook",
+      ]
+    depends_on:
+      - db
+
 volumes:
   postgres-data-askguru:
+  stripe-cli-config:
