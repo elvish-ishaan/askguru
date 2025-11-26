@@ -70,7 +70,7 @@ export default function ProjectsPage() {
                       Create New Project
                     </Button>
                   </NavigationMenuLink>
-                  <NavigationMenuLink asChild>
+                  {/* <NavigationMenuLink asChild>
                     <Button
                       variant="ghost"
                       className="justify-start text-sm transition-colors hover:bg-black/5 dark:hover:bg-white/10"
@@ -81,7 +81,7 @@ export default function ProjectsPage() {
                     >
                       Add Repositories
                     </Button>
-                  </NavigationMenuLink>
+                  </NavigationMenuLink> */}
                 </div>
               </NavigationMenuContent>
             </NavigationMenuItem>

@@ -100,7 +100,7 @@ export default function AuthPage() {
 
               <Button
                 type="submit"
-                className="w-full bg-gradient-to-r from-[#9B8BFF] to-[#FF9A8B] text-white font-semibold shadow-md hover:shadow-[0_0_15px_rgba(255,154,139,0.4)] transition-all duration-300"
+                className="w-full bg-blue-600 text-white font-semibold shadow-md hover:bg-blue-700 transition-all duration-300"
                 disabled={loading}
               >
                 {loading ? <Loader2 className="h-4 w-4 animate-spin mr-2" /> : null}

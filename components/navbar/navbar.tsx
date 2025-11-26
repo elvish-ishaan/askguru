@@ -6,7 +6,7 @@ import { Menu } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { useRouter } from "next/navigation";
-import Image from "next/image";
+import { Unplug } from 'lucide-react';
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
@@ -24,7 +24,7 @@ export default function Navbar() {
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         {/* Logo */}
         <Link href="/" className="">
-          <Image src="/platformLogo.png" alt="askguru_logo" width={120} height={120} />
+          <Unplug className=" text-blue-600" />
         </Link>
 
         {/* Desktop Nav */}
@@ -44,9 +44,9 @@ export default function Navbar() {
         <div className="hidden items-center gap-3 md:flex">
           <Button
             onClick={() => router.push("/auth")}
-            className="w-full py-3 rounded-lg font-semibold text-white bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500
-               hover:from-indigo-400 hover:via-purple-400 hover:to-pink-400
-               transition-all duration-300 shadow-[0_0_20px_rgba(147,51,234,0.4)] hover:shadow-[0_0_30px_rgba(236,72,153,0.5)]
+            className="w-full py-3 rounded-lg font-semibold text-white bg-blue-600
+               hover:bg-blue-700
+               transition-all duration-300 shadow-[0_0_20px_rgba(147,51,234,0.4)] hover:shadow-md
                backdrop-blur-sm"
           >
             Get Started
