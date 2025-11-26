@@ -160,7 +160,7 @@ export default function PricingPage() {
   ];
 
   return (
-    <div className="relative min-h-screen w-full text-white py-20 overflow-hidden">
+    <div className="relative min-h-screen w-full text-white py-10 overflow-hidden">
       <div
         className="absolute inset-0 -z-10"
         style={{
@@ -180,7 +180,7 @@ export default function PricingPage() {
       <div className="max-w-7xl mx-auto px-6 mt-10 relative z-10">
         {/* Heading */}
         <div className="text-center mb-16">
-          <h1 className="text-5xl md:text-6xl font-extrabold mb-5 bg-gradient-to-r from-purple-400 via-pink-400 to-orange-300 bg-clip-text text-transparent leading-tight">
+          <h1 className="text-5xl md:text-6xl font-bold bg-blue-600 bg-clip-text text-transparent leading-tight">
             Pricing Plans
           </h1>
           <p className="text-gray-400 text-lg md:text-xl">

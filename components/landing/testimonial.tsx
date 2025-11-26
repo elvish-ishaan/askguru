@@ -61,12 +61,12 @@ export default function Testimonials() {
           transition={{ duration: 0.5 }}
           className="inline-flex items-center justify-center text-sm tracking-widest text-gray-400 font-medium bg-[#151515]/70 backdrop-blur-md px-4 py-1.5 rounded-full border border-[#2A2A2A]"
         >
-          <Star className="w-4 h-4 mr-2 text-purple-400" />
+          <Star className="w-4 h-4 mr-2 text-blue-600" />
           Testimonials
         </motion.span>
         <h2 className="mt-6 text-4xl sm:text-5xl font-bold leading-tight">
           Building Trust{" "}
-          <span className="bg-gradient-to-r from-purple-400 to-pink-500 bg-clip-text text-transparent">
+          <span className="bg-blue-600 bg-clip-text text-transparent">
             Through Experience
           </span>
         </h2>

@@ -26,7 +26,7 @@ export default function CtaCard() {
       >
         <h2 className="text-4xl md:text-5xl font-bold text-white leading-snug">
           Supercharge Your Website with <br />
-          <span className="bg-gradient-to-r from-purple-400 to-pink-500 bg-clip-text text-transparent">
+          <span className=" bg-blue-600 bg-clip-text text-transparent">
             AskGuru
           </span>
         </h2>
@@ -40,9 +40,9 @@ export default function CtaCard() {
         <Button
           size="lg"
           onClick={() => router.push("/auth")}
-          className="mt-8 px-8 py-3 text-base cursor-pointer font-medium rounded-full bg-white text-black hover:scale-105 hover:bg-gray-100 transition-all duration-300 shadow-lg"
+          className="mt-8 px-8 py-3 text-base cursor-pointer font-medium rounded-full text-white bg-blue-600 hover:scale-105 hover:bg-blue-700 transition-all duration-300 shadow-lg"
         >
-          Get Started →
+          Get Started
         </Button>
       </motion.div>
     </section>
