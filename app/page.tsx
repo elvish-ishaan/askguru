@@ -21,9 +21,9 @@ export default function Home() {
       <ChatWedget config={{
         apiEndpoint: "http://localhost:3000/api/chat",
         apiKey: process.env.NEXT_PUBLIC_ASKGURU_API_KEY!,
-        theme: "#715bff",
-        logoImage: "/askguruLogo.png",
-        botName: "Ask Guru"
+        theme: "#155dfc",
+        logoImage: "/logo.png",
+        botName: "Plugg"
       }} />
     </main>
   );

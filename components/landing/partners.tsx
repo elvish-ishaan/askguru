@@ -27,7 +27,7 @@ export default function PartnersScroller() {
     <section className="py-20 bg-black text-white overflow-hidden">
       <h1 className="text-4xl font-bold text-center mb-12 cursor-pointer">
         Trusted by{" "}
-        <span className="bg-gradient-to-r from-purple-400 to-pink-500 bg-clip-text text-transparent">
+        <span className=" bg-blue-600 bg-clip-text text-transparent">
           Top Companies
         </span>
       </h1>
@@ -54,7 +54,7 @@ export default function PartnersScroller() {
                 key={idx}
                 className="flex flex-col items-center justify-center gap-2 min-w-[120px]"
               >
-                <Icon className="h-10 w-10 text-purple-400 cursor-pointer" />
+                <Icon className="h-10 w-10 text-blue-600 cursor-pointer" />
                 <span className="text-sm font-medium cursor-pointer">{partner.name}</span>
               </div>
             );

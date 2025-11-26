@@ -8,7 +8,7 @@ export default function Features() {
     <section className="relative w-full py-20 bg-black text-foreground overflow-hidden px-4 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-7xl">
         <div className="flex flex-col md:flex-row justify-between items-center gap-12 md:gap-16">
-          {/* ---------- LEFT: Text Section ---------- */}
+
           <motion.div
             className="text-center md:text-left space-y-6 md:max-w-md lg:max-w-lg"
             initial={{ opacity: 0, x: -50 }}
@@ -18,19 +18,16 @@ export default function Features() {
           >
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight leading-tight">
               Why Choose{" "}
-              <span className="bg-gradient-to-r from-[#7F5AF0] to-[#FF6E6C] bg-clip-text text-transparent">
+              <span className="bg-blue-600 bg-clip-text text-transparent">
                 AskGuru
               </span>
-              ?
             </h2>
             <p className="text-base sm:text-lg md:text-lg text-[#D1D9E6]">
-              Discover the next level of AI websites. AskGuru combines smart chat, AI-powered
-              document generation, and seamless integrations to create a truly intelligent user
-              experience.
+              Discover the next level of AI websites. AskGuru combines smart chat and seamless
+              integrations to deliver a truly intelligent user experience.
             </p>
           </motion.div>
 
-          {/* ---------- RIGHT: MagicBento Section ---------- */}
           <motion.div
             className="flex justify-center w-full max-w-[400px] md:max-w-none"
             initial={{ opacity: 0, x: 50 }}

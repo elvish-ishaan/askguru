@@ -26,23 +26,23 @@ export default function CtaCard() {
       >
         <h2 className="text-4xl md:text-5xl font-bold text-white leading-snug">
           Supercharge Your Website with <br />
-          <span className="bg-gradient-to-r from-purple-400 to-pink-500 bg-clip-text text-transparent">
-            AI Chat & Doc Generation
+          <span className=" bg-blue-600 bg-clip-text text-transparent">
+            AskGuru
           </span>
         </h2>
 
         <p className="mt-4 text-lg text-gray-400 max-w-2xl mx-auto">
-          Engage users instantly with intelligent conversations and generate professional documents
-          directly from your workflow—all in one platform with{" "}
+          Engage users instantly with intelligent, human-like conversations — all in one seamless AI
+          platform with {""}
           <span className="text-white font-medium">AskGuru</span>.
         </p>
 
         <Button
           size="lg"
           onClick={() => router.push("/auth")}
-          className="mt-8 px-8 py-3 text-base cursor-pointer font-medium rounded-full bg-white text-black hover:scale-105 hover:bg-gray-100 transition-all duration-300 shadow-lg"
+          className="mt-8 px-8 py-3 text-base cursor-pointer font-medium rounded-full text-white bg-blue-600 hover:scale-105 hover:bg-blue-700 transition-all duration-300 shadow-lg"
         >
-          Get Started →
+          Get Started
         </Button>
       </motion.div>
     </section>
