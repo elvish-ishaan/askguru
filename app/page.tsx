@@ -22,7 +22,7 @@ export default function Home() {
         apiEndpoint: "http://localhost:3000/api/chat",
         apiKey: process.env.NEXT_PUBLIC_ASKGURU_API_KEY!,
         theme: "#155dfc",
-        logoImage: "/logo.png",
+        logoImage: "/logoImg.png",
         botName: "Plugg"
       }} />
     </main>
