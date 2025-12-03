@@ -196,7 +196,7 @@ export default function PricingPage() {
               className={cn(
                 "flex flex-col backdrop-blur-lg bg-white/5 border border-white/10 rounded-2xl shadow-lg hover:scale-105 transition-transform duration-300",
                 plan.highlight &&
-                  "border border-purple-400/50 shadow-[0_0_30px_rgba(168,85,247,0.2)]",
+                  "border border-blue-600 shadow-[0_0_30px_rgba(168,85,247,0.2)]",
               )}
             >
               <CardHeader className="pb-3">
@@ -226,7 +226,7 @@ export default function PricingPage() {
                   className={cn(
                     "mb-6 rounded-full py-3 text-base font-medium shadow-lg transition-all duration-200",
                     plan.highlight
-                      ? "bg-gradient-to-r from-purple-500 to-pink-500 text-white hover:opacity-90"
+                      ? "bg-blue-600 text-white hover:opacity-90"
                       : "bg-white text-black hover:opacity-90",
                   )}
                 >
