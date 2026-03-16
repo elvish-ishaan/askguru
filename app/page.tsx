@@ -1,5 +1,4 @@
 "use client"
-import Banner from "@/components/landing/banner";
 import CtaCard from "@/components/landing/cta";
 import Features from "@/components/landing/features";
 import Footer from "@/components/landing/footer";
@@ -13,7 +12,6 @@ export default function Home() {
   return (
     <main>
       <Navbar/>
-      <Banner/>
       <HeroSection/>
       <Features/>
       <PartnersScroller/>
